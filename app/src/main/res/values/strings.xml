@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="details_movie_poster_alt">Movie poster</string>
 </resources>

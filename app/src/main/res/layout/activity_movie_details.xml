@@ -10,4 +10,62 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.udacity_project_1.popularmovies.MovieDetails">
 
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="196dp"
+        android:id="@+id/iv_movie_details_poster"
+        android:contentDescription="@string/details_movie_poster_alt" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_movie_details_title"
+        android:textSize="32sp"
+        android:layout_toRightOf="@id/iv_movie_details_poster"
+        android:layout_toEndOf="@id/iv_movie_details_poster"
+        android:layout_alignTop="@id/iv_movie_details_poster"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="textEnd"
+        android:gravity="end"
+        android:text=" MovieTitle"
+        />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rb_movie_details_rating"
+        android:layout_below="@id/tv_movie_details_title"
+        android:layout_alignRight="@id/tv_movie_details_title"
+        android:layout_alignEnd="@id/tv_movie_details_title"
+        android:layout_marginTop="10dp"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_movie_details_release_date"
+        android:layout_below="@id/rb_movie_details_rating"
+        android:layout_alignRight="@id/rb_movie_details_rating"
+        android:layout_alignEnd="@id/rb_movie_details_rating"
+        android:layout_marginTop="10dp"
+        android:text="Nov 3241"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_movie_details_synopsis"
+        android:layout_below="@+id/iv_movie_details_poster"
+        android:text="movie synopsis: bla bla bla bl abl abla bal balb lankdlnflasdnfl"
+        />
+
+
+
+
+
 </RelativeLayout>
