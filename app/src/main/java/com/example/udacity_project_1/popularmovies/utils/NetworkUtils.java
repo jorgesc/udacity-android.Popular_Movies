@@ -1,5 +1,7 @@
 package com.example.udacity_project_1.popularmovies.utils;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +24,8 @@ public class NetworkUtils {
                 .url(url)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        String output = response.body().string();
+        return output;
     }
 
     public static JSONObject getUrlAsJSON(URL url) throws IOException, JSONException{

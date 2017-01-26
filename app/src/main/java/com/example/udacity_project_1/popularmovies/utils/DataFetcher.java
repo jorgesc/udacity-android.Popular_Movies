@@ -22,7 +22,7 @@ public class DataFetcher {
 
     private static final String tmdbHost = "api.themoviedb.org";
     private static final String tmdbImageHost = "image.tmdb.org";
-    private static final String tmdbImageSize = "w185";
+    private static final String tmdbImageSize = "w342";
     private static final String popularMoviesQuery = "popularity.desc";
     private static final String topRatedMoviesQuery = "vote_average.desc";
 
@@ -44,18 +44,25 @@ public class DataFetcher {
         builder.path("/3/discover/movie");
         builder.appendQueryParameter("api_key", Constants.TMDB_API_KEY);
         builder.appendQueryParameter("sort_by", query);
-        return new URL(builder.build().toString());
+        URL output = new URL(builder.build().toString());
+        Log.v("DataFetcher", "URL generated: " + output);
+        return output;
     }
 
     private static URL buildImageURL (String path) throws MalformedURLException{
+
+        String cleanedPath = path.replace("/", "");
+
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http");
         builder.authority(tmdbImageHost);
-        builder.appendPath("/t/p/");
+        builder.appendPath("t");
+        builder.appendPath("p");
         builder.appendPath(tmdbImageSize);
-        builder.appendPath("/");
-        builder.appendPath(path);
-        return new URL(builder.build().toString());
+        builder.appendPath(cleanedPath);
+        URL output = new URL(builder.build().toString());
+        Log.v("DataFetcher", "Image URL generated: " + output);
+        return output;
     }
 
     private static JSONObject queryTmdbAPI(String query) {
