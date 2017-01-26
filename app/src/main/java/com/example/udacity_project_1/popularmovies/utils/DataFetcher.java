@@ -90,7 +90,7 @@ public class DataFetcher {
                 cleaned_movie.put("movie_title", movie.get("original_title").toString());
                 cleaned_movie.put("movie_synopsis", movie.get("overview").toString());
                 cleaned_movie.put("movie_date", prettyfyDate(movie.get("release_date").toString()));
-                cleaned_movie.put("movie_poster", buildImageURL(movie.get("backdrop_path").toString()));
+                cleaned_movie.put("movie_poster", buildImageURL(movie.get("poster_path").toString()));
                 cleaned_movie.put("movie_rating", movie.get("vote_average").toString());
 
                 output.put(cleaned_movie);
