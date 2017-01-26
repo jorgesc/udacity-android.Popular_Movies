@@ -20,24 +20,24 @@ import java.util.Locale;
 
 public class DataFetcher {
 
-    private final String tmdbHost = "api.themoviedb.org";
-    private final String tmdbImageHost = "image.tmdb.org";
-    private final String tmdbImageSize = "w185";
-    private final String popularMoviesQuery = "popularity.desc";
-    private final String topRatedMoviesQuery = "vote_average.desc";
+    private static final String tmdbHost = "api.themoviedb.org";
+    private static final String tmdbImageHost = "image.tmdb.org";
+    private static final String tmdbImageSize = "w185";
+    private static final String popularMoviesQuery = "popularity.desc";
+    private static final String topRatedMoviesQuery = "vote_average.desc";
 
 
-    public JSONArray getPopularMovies() {
+    public static JSONArray getPopularMovies() {
         return queryTmdbAPIandClean(popularMoviesQuery);
 
     }
 
-    public JSONArray getTopRatedMovies() {
+    public static JSONArray getTopRatedMovies() {
         return queryTmdbAPIandClean(topRatedMoviesQuery);
 
     }
 
-    private URL buildURL(String query) throws MalformedURLException{
+    private static URL buildURL(String query) throws MalformedURLException{
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");
         builder.authority(tmdbHost);
@@ -47,7 +47,7 @@ public class DataFetcher {
         return new URL(builder.build().toString());
     }
 
-    private URL buildImageURL (String path) throws MalformedURLException{
+    private static URL buildImageURL (String path) throws MalformedURLException{
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http");
         builder.authority(tmdbImageHost);
@@ -58,7 +58,7 @@ public class DataFetcher {
         return new URL(builder.build().toString());
     }
 
-    private JSONObject queryTmdbAPI(String query) {
+    private static JSONObject queryTmdbAPI(String query) {
         try {
             URL url = buildURL(query);
             return NetworkUtils.getUrlAsJSON(url);
@@ -68,11 +68,11 @@ public class DataFetcher {
         return null;
     }
 
-    private JSONArray queryTmdbAPIandClean(String query) {
+    private static JSONArray queryTmdbAPIandClean(String query) {
         return parseResponse(queryTmdbAPI(query));
     }
 
-    private JSONArray parseResponse(JSONObject response) {
+    private static JSONArray parseResponse(JSONObject response) {
         try {
             JSONArray output = new JSONArray();
             JSONArray movies = response.getJSONArray("results");
@@ -96,7 +96,7 @@ public class DataFetcher {
         return null;
     }
 
-    private String prettyfyDate(String date) {
+    private static String prettyfyDate(String date) {
         Calendar cal = Calendar.getInstance();
         String[] parts = date.split("-");
         cal.set(Calendar.MONTH, Integer.parseInt(parts[1]));
