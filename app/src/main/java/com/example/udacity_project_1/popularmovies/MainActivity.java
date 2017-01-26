@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
+
+        refresh();
     }
 
     @Override
@@ -48,10 +50,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int selection = item.getItemId();
         if (selection == R.id.action_refresh){
-            new DownloadMoviesDataAsync().execute();
-
+            refresh();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refresh(){
+        new DownloadMoviesDataAsync().execute();
     }
 
 
