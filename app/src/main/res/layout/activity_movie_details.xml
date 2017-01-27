@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_movie_details_title"
-        android:textSize="32sp"
+        android:textSize="24sp"
         android:layout_toRightOf="@id/iv_movie_details_poster"
         android:layout_toEndOf="@id/iv_movie_details_poster"
         android:layout_alignTop="@id/iv_movie_details_poster"
@@ -30,7 +30,6 @@
         android:layout_alignParentEnd="true"
         android:textAlignment="textEnd"
         android:gravity="end"
-        android:text=" MovieTitle"
         />
 
     <RatingBar
@@ -52,7 +51,6 @@
         android:layout_alignRight="@id/rb_movie_details_rating"
         android:layout_alignEnd="@id/rb_movie_details_rating"
         android:layout_marginTop="10dp"
-        android:text="Nov 3241"
         />
 
 
@@ -61,7 +59,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_movie_details_synopsis"
         android:layout_below="@+id/iv_movie_details_poster"
-        android:text="movie synopsis: bla bla bla bl abl abla bal balb lankdlnflasdnfl"
+        android:layout_marginTop="20dp"
         />
 
 

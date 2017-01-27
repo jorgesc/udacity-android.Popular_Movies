@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 /**
@@ -25,23 +27,38 @@ import java.util.zip.Inflater;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private JSONArray dataset;
+    private ArrayList<com.example.udacity_project_1.popularmovies.utils.Movie> dataset;
+    private GridItemClickListener clickListener;
 
-    class MovieViewHolder extends RecyclerView.ViewHolder{
+    public MoviesAdapter(GridItemClickListener listener) {
+        clickListener = listener;
+    }
+
+    public interface GridItemClickListener {
+        void onGridItemClick(int index);
+    }
+
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         Context context;
 
-        public MovieViewHolder(View itemView){
+        private MovieViewHolder(View itemView){
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_movie_item);
             context = itemView.getContext();
+            itemView.setOnClickListener(this);
 
         }
 
-        public void bind(String imgSource) {
+        private void bind(String imgSource) {
             Picasso.with(context).load(imgSource).into(imageView);
         }
 
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            clickListener.onGridItemClick(position);
+        }
     }
 
 
@@ -54,25 +71,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position){
-        try {
-            JSONObject movie = (JSONObject) dataset.get(position);
-            String imageSource = movie.getString("movie_poster");
-            holder.bind(imageSource);
-        }
-        catch (JSONException e){
-            Log.e("MoviesAdapter", "exception", e);
-        }
+        com.example.udacity_project_1.popularmovies.utils.Movie movie = dataset.get(position);
+        String imageSource = movie.poster;
+        holder.bind(imageSource);
     }
 
     @Override
     public int getItemCount() {
         if (dataset == null) {return 0;}
-        return dataset.length();
+        return dataset.size();
     }
 
-    public void updateData(JSONArray data) {
+    public void updateData(ArrayList<com.example.udacity_project_1.popularmovies.utils.Movie> data) {
         dataset = data;
         notifyDataSetChanged();
-        Log.d("MoviesAdapter", "dataset changed, new length: " + dataset.length());
+        Log.d("MoviesAdapter", "dataset changed, new length: " + dataset.size());
+    }
+
+    public com.example.udacity_project_1.popularmovies.utils.Movie getDatasetElement(int index) {
+        return dataset.get(index);
     }
 }

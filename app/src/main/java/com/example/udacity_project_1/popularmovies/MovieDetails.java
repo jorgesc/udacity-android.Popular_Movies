@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -31,24 +32,15 @@ public class MovieDetails extends AppCompatActivity {
 
         Intent builderIntent = getIntent();
 
-        if (builderIntent.hasExtra("movie_title")) {
-            movieTitle.setText(builderIntent.getStringExtra("movie_title"));
-        }
 
-        if (builderIntent.hasExtra("movie_synopsis")) {
-            movieSynopsis.setText(builderIntent.getStringExtra("movie_synopsis"));
-        }
+        if (builderIntent.hasExtra("movie")){
+            Movie movie = builderIntent.getParcelableExtra("movie");
 
-        if (builderIntent.hasExtra("movie_date")) {
-            movieDate.setText(builderIntent.getStringExtra("movie_date"));
-        }
-
-        if (builderIntent.hasExtra("movie_poster")) {
-            Picasso.with(this).load(builderIntent.getStringExtra("movie_poster")).into(moviePoster);
-        }
-
-        if (builderIntent.hasExtra("movie_rating")) {
-            movieRating.setRating(builderIntent.getFloatExtra("movie_rating", 0.0f));
+            movieTitle.setText(movie.title);
+            movieSynopsis.setText(movie.synopsis);
+            movieDate.setText(movie.date);
+            movieRating.setRating(Float.valueOf(movie.rating) / 2);
+            Picasso.with(this).load(movie.poster).into(moviePoster);
         }
 
     }

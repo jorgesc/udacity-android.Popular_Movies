@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -27,12 +29,12 @@ public class DataFetcher {
     private static final String topRatedMoviesQuery = "vote_average.desc";
 
 
-    public static JSONArray getPopularMovies() throws IOException{
+    public static ArrayList<Movie> getPopularMovies() throws IOException{
         return queryTmdbAPIandClean(popularMoviesQuery);
 
     }
 
-    public static JSONArray getTopRatedMovies() throws IOException{
+    public static ArrayList<Movie> getTopRatedMovies() throws IOException{
         return queryTmdbAPIandClean(topRatedMoviesQuery);
 
     }
@@ -76,7 +78,7 @@ public class DataFetcher {
         return null;
     }
 
-    private static JSONArray queryTmdbAPIandClean(String query) throws IOException{
+    private static ArrayList<Movie> queryTmdbAPIandClean(String query) throws IOException{
         JSONObject response = queryTmdbAPI(query);
         if (response == null) {
             return null;
@@ -86,21 +88,23 @@ public class DataFetcher {
         }
     }
 
-    private static JSONArray parseResponse(JSONObject response) {
+    private static ArrayList<Movie> parseResponse(JSONObject response) {
         try {
-            JSONArray output = new JSONArray();
+            ArrayList<Movie> output = new ArrayList<>();
             JSONArray movies = response.getJSONArray("results");
             for (int i = 0; i < movies.length(); i++) {
                 JSONObject movie = movies.getJSONObject(i);
-                JSONObject cleaned_movie = new JSONObject();
 
-                cleaned_movie.put("movie_title", movie.get("original_title").toString());
-                cleaned_movie.put("movie_synopsis", movie.get("overview").toString());
-                cleaned_movie.put("movie_date", prettyfyDate(movie.get("release_date").toString()));
-                cleaned_movie.put("movie_poster", buildImageURL(movie.get("poster_path").toString()));
-                cleaned_movie.put("movie_rating", movie.get("vote_average").toString());
 
-                output.put(cleaned_movie);
+                String title = movie.get("original_title").toString();
+                String date = prettyfyDate(movie.get("release_date").toString());
+                String rating = movie.get("vote_average").toString();
+                String synopsis = movie.get("overview").toString();
+                String poster = buildImageURL(movie.get("poster_path").toString()).toString();
+
+                Movie cleaned_movie = new Movie(title, date, rating, synopsis, poster);
+
+                output.add(cleaned_movie);
             }
             return output;
         }

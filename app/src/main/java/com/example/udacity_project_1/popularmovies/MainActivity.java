@@ -1,6 +1,8 @@
 package com.example.udacity_project_1.popularmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,16 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MoviesAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.GridItemClickListener{
 
     private MoviesAdapter moviesAdapter;
     private RecyclerView moviesRecyclerView;
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         errorMessage = (TextView) findViewById(R.id.tv_error_message);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-        moviesAdapter = new MoviesAdapter();
+        moviesAdapter = new MoviesAdapter(this);
 
         moviesRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
         moviesRecyclerView.setLayoutManager(layoutManager);
@@ -93,10 +98,16 @@ public class MainActivity extends AppCompatActivity {
         moviesRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onGridItemClick(int index) {
+        Movie movie= moviesAdapter.getDatasetElement(index);
+        Log.d("MainActivity", "Clicked on movie " + movie.title);
+        Intent intent = new Intent(this, MovieDetails.class);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
+    }
 
-
-
-    private class DownloadMoviesDataAsync extends AsyncTask<String, Void, JSONArray> {
+    private class DownloadMoviesDataAsync extends AsyncTask<String, Void, ArrayList<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -106,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected JSONArray doInBackground(String... params) {
+        protected ArrayList<Movie> doInBackground(String... params) {
 
-            JSONArray output = null;
+            ArrayList<Movie> output = null;
 
             try {
 
@@ -128,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            if (jsonArray != null) {
-                Log.v("MainActivity", "Got data: " + jsonArray.toString());
-                moviesAdapter.updateData(jsonArray);
+        protected void onPostExecute(ArrayList<Movie> output) {
+            if (output != null) {
+                Log.v("MainActivity", "Got data: " + output.toString());
+                moviesAdapter.updateData(output);
                 showMoviesView();
             }
             else {
