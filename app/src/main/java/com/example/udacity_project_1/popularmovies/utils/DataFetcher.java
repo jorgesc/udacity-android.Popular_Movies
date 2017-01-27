@@ -122,7 +122,7 @@ public class DataFetcher {
             SimpleDateFormat month_date = new SimpleDateFormat("MMM", Locale.getDefault());
             String month_name = month_date.format(cal.getTime());
 
-            return month_name + " " + parts[2];
+            return month_name + " " + parts[0];
         }
         catch (ArrayIndexOutOfBoundsException e) {
             Log.d("DataFetcher", "exception", e);
