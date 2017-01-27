@@ -21,27 +21,30 @@ public class DataFetcher {
     private static final String tmdbHost = "api.themoviedb.org";
     private static final String tmdbImageHost = "image.tmdb.org";
     private static final String tmdbImageSize = "w342";
-    private static final String popularMoviesQuery = "popularity.desc";
-    private static final String topRatedMoviesQuery = "vote_average.desc";
+    private static final String popularMoviesPath = "popular";
+    private static final String topRatedMoviesPath = "top_rated";
 
 
     public static ArrayList<Movie> getPopularMovies() throws IOException{
-        return queryTmdbAPIandClean(popularMoviesQuery);
+        return queryTmdbAPIandClean(popularMoviesPath);
 
     }
 
     public static ArrayList<Movie> getTopRatedMovies() throws IOException{
-        return queryTmdbAPIandClean(topRatedMoviesQuery);
+        return queryTmdbAPIandClean(topRatedMoviesPath);
 
     }
 
-    private static URL buildURL(String query) throws MalformedURLException{
+    private static URL buildURL(String path) throws MalformedURLException{
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");
         builder.authority(tmdbHost);
-        builder.path("/3/discover/movie");
+
+        builder.appendPath("3");
+        builder.appendPath("movie");
+        builder.appendPath(path);
+
         builder.appendQueryParameter("api_key", Constants.TMDB_API_KEY);
-        builder.appendQueryParameter("sort_by", query);
         URL output = new URL(builder.build().toString());
         Log.v("DataFetcher", "URL generated: " + output);
         return output;
