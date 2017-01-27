@@ -10,10 +10,17 @@ import android.widget.TextView;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MovieDetails extends AppCompatActivity {
 
-
+    @BindView(R.id.tv_movie_details_title) TextView movieTitle;
+    @BindView(R.id.tv_movie_details_synopsis) TextView movieSynopsis;
+    @BindView(R.id.tv_movie_details_release_date) TextView movieDate;
+    @BindView(R.id.iv_movie_details_poster) ImageView moviePoster;
+    @BindView(R.id.rb_movie_details_rating) RatingBar movieRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +28,9 @@ public class MovieDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        TextView movieTitle = (TextView) findViewById(R.id.tv_movie_details_title);
-        TextView movieSynopsis = (TextView) findViewById(R.id.tv_movie_details_synopsis);
-        TextView movieDate = (TextView) findViewById(R.id.tv_movie_details_release_date);
-        ImageView moviePoster = (ImageView) findViewById(R.id.iv_movie_details_poster);
-        RatingBar movieRating = (RatingBar) findViewById(R.id.rb_movie_details_rating);
+        ButterKnife.bind(this);
 
         Intent builderIntent = getIntent();
-
 
         if (builderIntent.hasExtra("movie")){
             Movie movie = builderIntent.getParcelableExtra("movie");
