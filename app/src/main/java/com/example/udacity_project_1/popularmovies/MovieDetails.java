@@ -1,8 +1,6 @@
 package com.example.udacity_project_1.popularmovies;
 
 import android.content.Intent;
-import android.media.Image;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 public class MovieDetails extends AppCompatActivity {
 

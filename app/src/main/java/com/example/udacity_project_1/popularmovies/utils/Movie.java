@@ -3,9 +3,6 @@ package com.example.udacity_project_1.popularmovies.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by hit on 27/01/17.
- */
 
 public class Movie implements Parcelable {
     public String title;
@@ -15,7 +12,7 @@ public class Movie implements Parcelable {
     public String poster;
 
 
-    public Movie(String nTitle, String nDate, String nRating, String nSynopsis, String nPoster){
+    Movie(String nTitle, String nDate, String nRating, String nSynopsis, String nPoster){
         title = nTitle;
         date = nDate;
         rating = nRating;
@@ -23,7 +20,7 @@ public class Movie implements Parcelable {
         poster = nPoster;
     }
 
-    public Movie(Parcel source){
+    private Movie(Parcel source){
         title = source.readString();
         date = source.readString();
         rating = source.readString();

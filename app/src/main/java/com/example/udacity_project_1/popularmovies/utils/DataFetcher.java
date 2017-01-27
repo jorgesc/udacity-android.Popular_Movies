@@ -13,12 +13,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by hit on 26/01/17.
- */
 
 public class DataFetcher {
 
