@@ -37,7 +37,10 @@ public class MovieDetails extends AppCompatActivity {
             movieSynopsis.setText(movie.synopsis);
             movieDate.setText(movie.date);
             movieRating.setRating(Float.valueOf(movie.rating) / 2);
-            Picasso.with(this).load(movie.poster).into(moviePoster);
+            Picasso.with(this)
+                    .load(movie.poster)
+                    .error(R.mipmap.img_movie_poster_placeholder)
+                    .into(moviePoster);
         }
 
     }
