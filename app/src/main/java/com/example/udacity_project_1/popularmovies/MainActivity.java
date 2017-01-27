@@ -21,13 +21,17 @@ import com.example.udacity_project_1.popularmovies.utils.MoviesAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.GridItemClickListener{
 
     private MoviesAdapter moviesAdapter;
-    private RecyclerView moviesRecyclerView;
 
-    private ProgressBar loadingBar;
-    private TextView errorMessage;
+    @BindView(R.id.rv_movies) RecyclerView moviesRecyclerView;
+
+    @BindView(R.id.pb_loading_bar) ProgressBar loadingBar;
+    @BindView(R.id.tv_error_message) TextView errorMessage;
 
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -40,13 +44,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadingBar = (ProgressBar) findViewById(R.id.pb_loading_bar);
-        errorMessage = (TextView) findViewById(R.id.tv_error_message);
+        ButterKnife.bind(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNumberOfColumns());
         moviesAdapter = new MoviesAdapter(this);
 
-        moviesRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
         moviesRecyclerView.setLayoutManager(layoutManager);
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.setAdapter(moviesAdapter);
