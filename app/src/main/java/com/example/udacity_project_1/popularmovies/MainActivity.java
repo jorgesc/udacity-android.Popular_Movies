@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
 
-        refresh();
+        refresh("popular");
     }
 
     @Override
@@ -49,20 +49,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int selection = item.getItemId();
-        if (selection == R.id.action_refresh){
-            refresh();
+        if (selection == R.id.action_popular){
+            refresh("popular");
+        }
+        else if (selection == R.id.action_top_rated){
+            refresh("top_rated");
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void refresh(){
-        new DownloadMoviesDataAsync().execute();
+    private void refresh(String query)
+    {
+        new DownloadMoviesDataAsync().execute(query);
     }
 
 
 
 
-    private class DownloadMoviesDataAsync extends AsyncTask<Void, Void, JSONArray> {
+    private class DownloadMoviesDataAsync extends AsyncTask<String, Void, JSONArray> {
 
         @Override
         protected void onPreExecute() {
@@ -71,8 +75,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected JSONArray doInBackground(Void... params) {
-            return DataFetcher.getPopularMovies();
+        protected JSONArray doInBackground(String... params) {
+
+            JSONArray output = null;
+
+            switch (params[0]){
+                case "popular": output = DataFetcher.getPopularMovies();
+                    break;
+                case "top_rated": output = DataFetcher.getTopRatedMovies();
+                    break;
+            }
+            return output;
         }
 
         @Override

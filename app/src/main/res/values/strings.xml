@@ -3,5 +3,7 @@
     <string name="details_movie_poster_alt">Movie poster</string>
     <string name="placeholder">Blank</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top Rated</string>
 
 </resources>
