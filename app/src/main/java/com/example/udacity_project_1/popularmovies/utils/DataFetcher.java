@@ -27,12 +27,12 @@ public class DataFetcher {
     private static final String topRatedMoviesQuery = "vote_average.desc";
 
 
-    public static JSONArray getPopularMovies() {
+    public static JSONArray getPopularMovies() throws IOException{
         return queryTmdbAPIandClean(popularMoviesQuery);
 
     }
 
-    public static JSONArray getTopRatedMovies() {
+    public static JSONArray getTopRatedMovies() throws IOException{
         return queryTmdbAPIandClean(topRatedMoviesQuery);
 
     }
@@ -65,18 +65,25 @@ public class DataFetcher {
         return output;
     }
 
-    private static JSONObject queryTmdbAPI(String query) {
+    private static JSONObject queryTmdbAPI(String query) throws IOException {
         try {
             URL url = buildURL(query);
             return NetworkUtils.getUrlAsJSON(url);
-        } catch (IOException | JSONException e) {
+        }
+        catch (JSONException e) {
             Log.e("DataFetcher", "exception", e);
         }
         return null;
     }
 
-    private static JSONArray queryTmdbAPIandClean(String query) {
-        return parseResponse(queryTmdbAPI(query));
+    private static JSONArray queryTmdbAPIandClean(String query) throws IOException{
+        JSONObject response = queryTmdbAPI(query);
+        if (response == null) {
+            return null;
+        }
+        else {
+            return parseResponse(queryTmdbAPI(query));
+        }
     }
 
     private static JSONArray parseResponse(JSONObject response) {
@@ -104,13 +111,19 @@ public class DataFetcher {
     }
 
     private static String prettyfyDate(String date) {
-        Calendar cal = Calendar.getInstance();
-        String[] parts = date.split("-");
-        cal.set(Calendar.MONTH, Integer.parseInt(parts[1]));
-        SimpleDateFormat month_date = new SimpleDateFormat("MMM", Locale.getDefault());
-        String month_name = month_date.format(cal.getTime());
+        try {
+            Calendar cal = Calendar.getInstance();
+            String[] parts = date.split("-");
+            cal.set(Calendar.MONTH, Integer.parseInt(parts[1]));
+            SimpleDateFormat month_date = new SimpleDateFormat("MMM", Locale.getDefault());
+            String month_name = month_date.format(cal.getTime());
 
-        return month_name + " " + parts[2];
+            return month_name + " " + parts[2];
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            Log.d("DataFetcher", "exception", e);
+            return date;
+        }
     }
 
 }

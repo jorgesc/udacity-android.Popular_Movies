@@ -9,13 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
 import com.example.udacity_project_1.popularmovies.utils.MoviesAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,10 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private MoviesAdapter moviesAdapter;
     private RecyclerView moviesRecyclerView;
 
+    private ProgressBar loadingBar;
+    private TextView errorMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loadingBar = (ProgressBar) findViewById(R.id.pb_loading_bar);
+        errorMessage = (TextView) findViewById(R.id.tv_error_message);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         moviesAdapter = new MoviesAdapter();
@@ -63,6 +74,25 @@ public class MainActivity extends AppCompatActivity {
         new DownloadMoviesDataAsync().execute(query);
     }
 
+    private void showLoadingScreen(){
+        moviesRecyclerView.setVisibility(View.INVISIBLE);
+        errorMessage.setVisibility(View.INVISIBLE);
+        loadingBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showNetworkNotAvailableMessage() {
+        moviesRecyclerView.setVisibility(View.INVISIBLE);
+        loadingBar.setVisibility(View.INVISIBLE);
+        errorMessage.setText(this.getResources().getString(R.string.network_not_available_message));
+        errorMessage.setVisibility(View.VISIBLE);
+    }
+
+    private void showMoviesView() {
+        loadingBar.setVisibility(View.INVISIBLE);
+        errorMessage.setVisibility(View.INVISIBLE);
+        moviesRecyclerView.setVisibility(View.VISIBLE);
+    }
+
 
 
 
@@ -71,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             Log.d("DownloadMoviesDataAsync", "Starting Async task");
+            showLoadingScreen();
             super.onPreExecute();
         }
 
@@ -79,19 +110,33 @@ public class MainActivity extends AppCompatActivity {
 
             JSONArray output = null;
 
-            switch (params[0]){
-                case "popular": output = DataFetcher.getPopularMovies();
-                    break;
-                case "top_rated": output = DataFetcher.getTopRatedMovies();
-                    break;
+            try {
+
+                switch (params[0]) {
+                    case "popular":
+                        output = DataFetcher.getPopularMovies();
+                        break;
+                    case "top_rated":
+                        output = DataFetcher.getTopRatedMovies();
+                        break;
+                }
+            }
+            catch (IOException e) {
+                Log.e("MainActivity", "No network", e);
             }
             return output;
         }
 
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
-            Log.v("MainActivity", "Got data: " + jsonArray.toString());
-            moviesAdapter.updateData(jsonArray);
+            if (jsonArray != null) {
+                Log.v("MainActivity", "Got data: " + jsonArray.toString());
+                moviesAdapter.updateData(jsonArray);
+                showMoviesView();
+            }
+            else {
+                showNetworkNotAvailableMessage();
+            }
             Log.d("DownloadMoviesDataAsync", "Finished Async task");
 
         }
