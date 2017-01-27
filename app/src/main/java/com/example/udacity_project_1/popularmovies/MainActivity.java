@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     private ProgressBar loadingBar;
     private TextView errorMessage;
 
+    private int calculateNumberOfColumns() {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (dpWidth / 100);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         loadingBar = (ProgressBar) findViewById(R.id.pb_loading_bar);
         errorMessage = (TextView) findViewById(R.id.tv_error_message);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNumberOfColumns());
         moviesAdapter = new MoviesAdapter(this);
 
         moviesRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
