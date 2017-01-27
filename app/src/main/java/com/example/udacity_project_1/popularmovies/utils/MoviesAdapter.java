@@ -40,8 +40,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
 
         private void bind(String imgSource) {
-            Picasso.with(context).load(imgSource).into(imageView);
-        }
+            Picasso.with(context)
+                    .load(imgSource)
+                    .error(R.mipmap.img_movie_poster_placeholder)
+                    .into(imageView);
+       }
 
         @Override
         public void onClick(View v) {

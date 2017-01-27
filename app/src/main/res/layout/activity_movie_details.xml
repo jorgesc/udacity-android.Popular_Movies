@@ -60,6 +60,7 @@
         android:id="@+id/tv_movie_details_synopsis"
         android:layout_below="@+id/iv_movie_details_poster"
         android:layout_marginTop="20dp"
+
         />
 
 
