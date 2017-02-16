@@ -5,6 +5,9 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_popular">Popular</string>
     <string name="action_top_rated">Top Rated</string>
+    <string name="action_favorites">Favorites</string>
     <string name="network_not_available_message">Error: network not available</string>
+
+    <string name="sort_menu">Sort</string>
 
 </resources>
