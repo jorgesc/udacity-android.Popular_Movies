@@ -13,8 +13,46 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+class Trailer {
+
+    private String name;
+    private URL url;
+
+    Trailer(String nName, URL nUrl) {
+        name = nName;
+        url = nUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+}
+
+class Review {
+    private String author;
+    private String content;
+
+    Review(String nAuthor, String nContent) {
+        author = nAuthor;
+        content = nContent;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+}
 
 public class DataFetcher {
 
@@ -23,6 +61,8 @@ public class DataFetcher {
     private static final String tmdbImageSize = "w342";
     private static final String popularMoviesPath = "popular";
     private static final String topRatedMoviesPath = "top_rated";
+    private static final String trailersPath = "videos";
+    private static final String reviewsPath = "reviews";
 
 
     public static ArrayList<Movie> getPopularMovies() throws IOException{
@@ -35,19 +75,27 @@ public class DataFetcher {
 
     }
 
-    private static URL buildURL(String path) throws MalformedURLException{
+    private static URL buildURL(ArrayList<String> path) throws MalformedURLException{
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");
         builder.authority(tmdbHost);
 
         builder.appendPath("3");
         builder.appendPath("movie");
-        builder.appendPath(path);
+        for (String p : path) {
+            builder.appendPath(p);
+        }
 
         builder.appendQueryParameter("api_key", Constants.TMDB_API_KEY);
         URL output = new URL(builder.build().toString());
         Log.v("DataFetcher", "URL generated: " + output);
         return output;
+    }
+
+    private static URL buildURL(String path) throws MalformedURLException{
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(path);
+        return buildURL(paths);
     }
 
     private static URL buildImageURL (String path) throws MalformedURLException{
@@ -64,6 +112,14 @@ public class DataFetcher {
         URL output = new URL(builder.build().toString());
         Log.v("DataFetcher", "Image URL generated: " + output);
         return output;
+    }
+
+    private static URL buildDetailsURL (int movieId, String detail) throws MalformedURLException{
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(String.valueOf(movieId));
+        paths.add(detail);
+        return buildURL(paths);
+
     }
 
     private static JSONObject queryTmdbAPI(String query) throws IOException {
@@ -127,6 +183,54 @@ public class DataFetcher {
             Log.d("DataFetcher", "exception", e);
             return date;
         }
+    }
+
+
+    private static URL generateYoutubeUrl(String key) throws MalformedURLException{
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https");
+        builder.authority("www.youtube.com");
+        builder.path("watch");
+        builder.appendQueryParameter("v", key);
+        URL output = new URL(builder.build().toString());
+        return output;
+
+    }
+
+    public static ArrayList<Trailer> getMovieTrailers(int movieId) throws IOException, JSONException{
+
+        // TODO clean all this
+
+        URL url = buildDetailsURL(movieId, trailersPath);
+        JSONObject response = NetworkUtils.getUrlAsJSON(url);
+        JSONArray results = response.getJSONArray("results");
+
+        ArrayList<Trailer> output = new ArrayList<>();
+
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject result = (JSONObject) results.get(i);
+            String name = result.getString("name");
+            URL ytUrl = generateYoutubeUrl(result.getString("key"));
+            output.add(new Trailer(name, ytUrl));
+        }
+        return output;
+    }
+
+
+    public static ArrayList<Review> getMovieReviews(int movieId)  throws IOException, JSONException{
+        URL url = buildDetailsURL(movieId, reviewsPath);
+        JSONObject response = NetworkUtils.getUrlAsJSON(url);
+        JSONArray results = response.getJSONArray("results");
+
+        ArrayList<Review> output = new ArrayList<>();
+
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject result = (JSONObject) results.get(i);
+            String author = result.getString("author");
+            String content = result.getString("content");
+            output.add(new Review(author, content));
+        }
+        return output;
     }
 
 }
