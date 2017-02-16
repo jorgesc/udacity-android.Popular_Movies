@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        return (int) (dpWidth / 100);
+        return (int) (dpWidth / 90);
     }
 
     @Override
