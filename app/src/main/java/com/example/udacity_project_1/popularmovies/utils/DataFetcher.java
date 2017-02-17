@@ -156,8 +156,9 @@ public class DataFetcher {
                 String rating = movie.get("vote_average").toString();
                 String synopsis = movie.get("overview").toString();
                 String poster = buildImageURL(movie.get("poster_path").toString()).toString();
+                int movieId = Integer.valueOf(movie.get("id").toString());
 
-                Movie cleaned_movie = new Movie(title, date, rating, synopsis, poster);
+                Movie cleaned_movie = new Movie(title, date, rating, synopsis, poster, movieId);
 
                 output.add(cleaned_movie);
             }
