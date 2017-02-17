@@ -1,6 +1,7 @@
 package com.example.udacity_project_1.popularmovies.utils;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
 
     private ArrayList<Trailer> trailers;
 
-    class TrailerViewHolder extends RecyclerView.ViewHolder {
+    class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView name;
 
@@ -29,6 +30,12 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
 
         public void bind(int position) {
             name.setText(trailers.get(position).getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.v("TrailersAdapter", "Clicked on Trailer: " + trailers.get(position).getName());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.udacity_project_1.popularmovies.utils;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
     private ArrayList<Review> reviews;
 
-    class ReviewViewHolder extends RecyclerView.ViewHolder {
+    class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView author;
         private TextView content;
@@ -36,6 +37,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
             Review review = reviews.get(position);
             author.setText(review.getAuthor());
             content.setText(review.getContent());
+        }
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.v("ReviewsAdapter", "Clicked on Review: " + reviews.get(position).getAuthor());
         }
     }
 

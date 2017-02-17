@@ -49,6 +49,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            Log.v("MoviesAdapter", "Clickec on element");
             clickListener.onGridItemClick(position);
         }
     }
