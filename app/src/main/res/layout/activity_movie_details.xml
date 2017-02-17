@@ -86,6 +86,12 @@
             android:id="@+id/tv_movie_details_trailers_title"
             />
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:id="@+id/pb_trailers_loading_bar"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,6 +122,12 @@
             android:text="@string/details_reviews_title"
             android:id="@+id/tv_movie_details_reviews_title"
             />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:id="@+id/pb_reviews_loading_bar"/>
 
         <TextView
             android:layout_width="wrap_content"

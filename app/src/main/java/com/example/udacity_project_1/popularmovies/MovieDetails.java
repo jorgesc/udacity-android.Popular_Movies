@@ -11,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -38,8 +40,14 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.tv_movie_details_release_date) TextView movieDate;
     @BindView(R.id.iv_movie_details_poster) ImageView moviePoster;
     @BindView(R.id.rb_movie_details_rating) RatingBar movieRating;
-    @BindView(R.id.rv_movie_details_reviews) RecyclerView movieReviews;
+
     @BindView(R.id.rv_movie_details_trailers) RecyclerView movieTrailers;
+    @BindView(R.id.tv_movie_details_trailers_error) TextView noTrailersError;
+    @BindView(R.id.pb_trailers_loading_bar) ProgressBar trailersLoadingBar;
+
+    @BindView(R.id.rv_movie_details_reviews) RecyclerView movieReviews;
+    @BindView(R.id.tv_movie_details_reviews_error) TextView noReviewsError;
+    @BindView(R.id.pb_reviews_loading_bar) ProgressBar reviewsLoadingBar;
 
     private ReviewsAdapter reviewsAdapter;
     private TrailersAdapter trailersAdapter;
@@ -109,6 +117,20 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<MovieExtra> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<MovieExtra>(this) {
+
+            @Override
+            protected void onStartLoading() {
+                movieReviews.setVisibility(View.INVISIBLE);
+                noReviewsError.setVisibility(View.INVISIBLE);
+                reviewsLoadingBar.setVisibility(View.VISIBLE);
+
+                movieTrailers.setVisibility(View.INVISIBLE);
+                noTrailersError.setVisibility(View.INVISIBLE);
+                trailersLoadingBar.setVisibility(View.VISIBLE);
+
+                super.onStartLoading();
+            }
+
             @Override
             public MovieExtra loadInBackground() {
                 try {
@@ -128,6 +150,23 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
         reviewsAdapter.updateDataSet(data.getReviews());
         trailersAdapter.updateDataSet(data.getTrailers());
+
+        reviewsLoadingBar.setVisibility(View.INVISIBLE);
+        trailersLoadingBar.setVisibility(View.INVISIBLE);
+
+        if (data.getReviews().size() > 0) {
+            movieReviews.setVisibility(View.VISIBLE);
+        }
+        else {
+            noReviewsError.setVisibility(View.VISIBLE);
+        }
+
+        if (data.getTrailers().size() > 0) {
+            movieTrailers.setVisibility(View.VISIBLE);
+        }
+        else {
+            noTrailersError.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
