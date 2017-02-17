@@ -12,25 +12,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_trailer_name"/>
 
         <ImageView
+            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_play_trailer_icon"
             android:src="@drawable/ic_play_arrow_black_24dp"/>
 
         <ImageView
-            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_share_trailer_icon"
             android:src="@drawable/ic_share_black_24dp"/>
 
-        <TextView
-            android:layout_marginLeft="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_trailer_name"/>
 
     </LinearLayout>
 
