@@ -96,7 +96,7 @@
                 />
 
             <ProgressBar
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.ProgressBar.Small"
                 android:id="@+id/pb_trailers_loading_bar"/>
@@ -145,7 +145,7 @@
                 />
 
             <ProgressBar
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.ProgressBar.Small"
                 android:id="@+id/pb_reviews_loading_bar"/>
