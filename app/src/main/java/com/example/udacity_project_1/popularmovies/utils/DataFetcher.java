@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -15,44 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
-class Trailer {
-
-    private String name;
-    private URL url;
-
-    Trailer(String nName, URL nUrl) {
-        name = nName;
-        url = nUrl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public URL getUrl() {
-        return url;
-    }
-}
-
-class Review {
-    private String author;
-    private String content;
-
-    Review(String nAuthor, String nContent) {
-        author = nAuthor;
-        content = nContent;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-}
 
 public class DataFetcher {
 
@@ -198,7 +161,7 @@ public class DataFetcher {
 
     }
 
-    public static ArrayList<Trailer> getMovieTrailers(int movieId) throws IOException, JSONException{
+    private static ArrayList<Trailer> getMovieTrailers(int movieId) throws IOException, JSONException{
 
         // TODO clean all this
 
@@ -218,7 +181,7 @@ public class DataFetcher {
     }
 
 
-    public static ArrayList<Review> getMovieReviews(int movieId)  throws IOException, JSONException{
+    private static ArrayList<Review> getMovieReviews(int movieId)  throws IOException, JSONException{
         URL url = buildDetailsURL(movieId, reviewsPath);
         JSONObject response = NetworkUtils.getUrlAsJSON(url);
         JSONArray results = response.getJSONArray("results");
@@ -232,6 +195,13 @@ public class DataFetcher {
             output.add(new Review(author, content));
         }
         return output;
+    }
+
+
+    public static MovieExtra getMovieExtra(int movieId) throws IOException, JSONException {
+        ArrayList<Review> reviews = getMovieReviews(movieId);
+        ArrayList<Trailer> trailers = getMovieTrailers(movieId);
+        return new MovieExtra(trailers, reviews);
     }
 
 }
