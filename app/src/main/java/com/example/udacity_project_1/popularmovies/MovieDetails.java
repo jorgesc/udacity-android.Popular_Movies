@@ -20,6 +20,7 @@ import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MovieExtra;
 import com.example.udacity_project_1.popularmovies.utils.Review;
 import com.example.udacity_project_1.popularmovies.utils.ReviewsAdapter;
+import com.example.udacity_project_1.popularmovies.utils.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -41,6 +42,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.rv_movie_details_trailers) RecyclerView movieTrailers;
 
     private ReviewsAdapter reviewsAdapter;
+    private TrailersAdapter trailersAdapter;
 
     private final int LOADER_CODE = 238923;
 
@@ -72,6 +74,11 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             movieReviews.setLayoutManager(new LinearLayoutManager(this));
             reviewsAdapter = new ReviewsAdapter();
             movieReviews.setAdapter(reviewsAdapter);
+
+            movieTrailers.setLayoutManager(new LinearLayoutManager(this));
+            trailersAdapter = new TrailersAdapter();
+            movieTrailers.setAdapter(trailersAdapter);
+
 
 
             // LOADER STUFF
@@ -120,7 +127,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
         Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
         reviewsAdapter.updateDataSet(data.getReviews());
-
+        trailersAdapter.updateDataSet(data.getTrailers());
     }
 
     @Override
