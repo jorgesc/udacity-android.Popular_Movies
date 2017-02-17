@@ -26,6 +26,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         public TrailerViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.tv_trailer_name);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(int position) {

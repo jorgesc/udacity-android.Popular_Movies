@@ -9,8 +9,8 @@ public class Review {
     private String content;
 
     Review(String nAuthor, String nContent) {
-        author = nAuthor;
-        content = nContent;
+        author = nAuthor.trim();
+        content = nContent.trim();
     }
 
     public String getAuthor() {

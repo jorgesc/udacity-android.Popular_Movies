@@ -31,6 +31,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
             super(itemView);
             author = (TextView) itemView.findViewById(R.id.tv_review_author);
             content = (TextView) itemView.findViewById(R.id.tv_review_content);
+            itemView.setOnClickListener(this);
         }
 
         private void bind(int position) {

@@ -15,7 +15,7 @@ public class Trailer {
     private java.net.URL url;
 
     Trailer(String nName, URL nUrl) {
-        name = nName;
+        name = nName.trim();
         url = nUrl;
     }
 
