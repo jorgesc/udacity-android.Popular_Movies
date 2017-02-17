@@ -6,6 +6,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MovieExtra;
+import com.example.udacity_project_1.popularmovies.utils.Review;
+import com.example.udacity_project_1.popularmovies.utils.ReviewsAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -33,6 +37,10 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.tv_movie_details_release_date) TextView movieDate;
     @BindView(R.id.iv_movie_details_poster) ImageView moviePoster;
     @BindView(R.id.rb_movie_details_rating) RatingBar movieRating;
+    @BindView(R.id.rv_movie_details_reviews) RecyclerView movieReviews;
+    @BindView(R.id.rv_movie_details_trailers) RecyclerView movieTrailers;
+
+    private ReviewsAdapter reviewsAdapter;
 
     private final int LOADER_CODE = 238923;
 
@@ -46,6 +54,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
         Intent builderIntent = getIntent();
 
+        // INIT STUFF
+
         if (builderIntent.hasExtra("movie")){
             Movie movie = builderIntent.getParcelableExtra("movie");
 
@@ -57,6 +67,14 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                     .load(movie.poster)
                     .error(R.mipmap.img_movie_poster_placeholder)
                     .into(moviePoster);
+
+
+            movieReviews.setLayoutManager(new LinearLayoutManager(this));
+            reviewsAdapter = new ReviewsAdapter();
+            movieReviews.setAdapter(reviewsAdapter);
+
+
+            // LOADER STUFF
 
             LoaderManager loaderManager = getSupportLoaderManager();
             Loader loader = loaderManager.getLoader(LOADER_CODE);
@@ -101,6 +119,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<MovieExtra> loader, MovieExtra data) {
         Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
         Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
+        reviewsAdapter.updateDataSet(data.getReviews());
 
     }
 

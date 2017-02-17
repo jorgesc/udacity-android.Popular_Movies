@@ -96,7 +96,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lv_movie_details_trailers"
+            android:id="@+id/rv_movie_details_trailers"
             />
 
     </LinearLayout>
@@ -127,7 +127,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lv_movie_details_reviews"
+            android:id="@+id/rv_movie_details_reviews"
             />
 
     </LinearLayout>
