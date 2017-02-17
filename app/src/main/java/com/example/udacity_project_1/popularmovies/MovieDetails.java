@@ -13,8 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
@@ -54,6 +57,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     private final int LOADER_CODE = 238923;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -82,10 +86,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             movieReviews.setLayoutManager(new LinearLayoutManager(this));
             reviewsAdapter = new ReviewsAdapter();
             movieReviews.setAdapter(reviewsAdapter);
+            movieReviews.setHasFixedSize(false);
 
             movieTrailers.setLayoutManager(new LinearLayoutManager(this));
             trailersAdapter = new TrailersAdapter();
             movieTrailers.setAdapter(trailersAdapter);
+            movieTrailers.setHasFixedSize(false);
 
 
 
@@ -156,6 +162,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
         if (data.getReviews().size() > 0) {
             movieReviews.setVisibility(View.VISIBLE);
+            movieReviews.requestLayout();
+            movieReviews.invalidate();
         }
         else {
             noReviewsError.setVisibility(View.VISIBLE);
