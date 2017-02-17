@@ -56,9 +56,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/iv_movie_details_poster"
         android:layout_marginTop="20dp"
+        android:id="@+id/tv_movie_details_synopsis_container"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +71,65 @@
     </ScrollView>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_movie_details_synopsis_container"
+        android:orientation="vertical"
+        android:id="@+id/ll_movie_details_trailers_container"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_trailers_title"
+            android:id="@+id/tv_movie_details_trailers_title"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_trailers_error"
+            android:id="@+id/tv_movie_details_trailers_error"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_movie_details_trailers"
+            />
+
+    </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_movie_details_trailers_container"
+        android:orientation="vertical"
+        android:id="@+id/ll_movie_details_reviews_container"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_reviews_title"
+            android:id="@+id/tv_movie_details_reviews_title"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_reviews_error"
+            android:id="@+id/tv_movie_details_reviews_error"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_movie_details_reviews"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>
