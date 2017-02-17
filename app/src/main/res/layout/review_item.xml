@@ -7,12 +7,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:background="@color/colorPrimaryLight"
         android:id="@+id/tv_review_author"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:background="@color/colorPrimaryVeryLight"
         android:id="@+id/tv_review_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        android:layout_marginBottom="16dp"/>
+
 
 </LinearLayout>
