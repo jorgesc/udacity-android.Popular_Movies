@@ -126,12 +126,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onStartLoading() {
-                movieReviews.setVisibility(View.INVISIBLE);
-                noReviewsError.setVisibility(View.INVISIBLE);
+                movieReviews.setVisibility(View.GONE);
+                noReviewsError.setVisibility(View.GONE);
                 reviewsLoadingBar.setVisibility(View.VISIBLE);
 
-                movieTrailers.setVisibility(View.INVISIBLE);
-                noTrailersError.setVisibility(View.INVISIBLE);
+                movieTrailers.setVisibility(View.GONE);
+                noTrailersError.setVisibility(View.GONE);
                 trailersLoadingBar.setVisibility(View.VISIBLE);
 
                 super.onStartLoading();
@@ -157,8 +157,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         reviewsAdapter.updateDataSet(data.getReviews());
         trailersAdapter.updateDataSet(data.getTrailers());
 
-        reviewsLoadingBar.setVisibility(View.INVISIBLE);
-        trailersLoadingBar.setVisibility(View.INVISIBLE);
+        reviewsLoadingBar.setVisibility(View.GONE);
+        trailersLoadingBar.setVisibility(View.GONE);
 
         if (data.getReviews().size() > 0) {
             movieReviews.setVisibility(View.VISIBLE);
