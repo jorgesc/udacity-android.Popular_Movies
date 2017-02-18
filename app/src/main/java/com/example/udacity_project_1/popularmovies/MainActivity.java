@@ -107,30 +107,44 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         }
         else if (selection == R.id.action_favorites){
             setTitle(getResources().getString(R.string.title_favorite_movies));
-            show_favorites();
+            new ShowFavoritesAsync().execute();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void show_favorites() {
-        Cursor c = contentResolver.query(FavoriteContentProviderContract.CONTENT_URI, null, null, null, null, null);
-        ArrayList<Movie> movies = new ArrayList<>();
+    class ShowFavoritesAsync extends AsyncTask<Void, Void, Cursor> {
 
-        while (c.moveToNext()) {
-            Movie movie = new Movie(
-                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_TITLE)),
-                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_DATE)),
-                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_RATING)),
-                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_SYNOPSIS)),
-                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_POSTER)),
-                    c.getInt(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID))
-                    );
-            movies.add(movie);
+        @Override
+        protected void onPreExecute() {
+            showLoadingScreen();
         }
-        c.close();
-        moviesAdapter.updateData(movies);
-        showMoviesView();
+
+        @Override
+        protected Cursor doInBackground(Void... params) {
+            return contentResolver.query(FavoriteContentProviderContract.CONTENT_URI, null, null, null, null, null);
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            ArrayList<Movie> movies = new ArrayList<>();
+
+            while (cursor.moveToNext()) {
+                Movie movie = new Movie(
+                        cursor.getString(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_DATE)),
+                        cursor.getString(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_RATING)),
+                        cursor.getString(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_SYNOPSIS)),
+                        cursor.getString(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_POSTER)),
+                        cursor.getInt(cursor.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID))
+                );
+                movies.add(movie);
+            }
+            cursor.close();
+            moviesAdapter.updateData(movies);
+            showMoviesView();
+        }
     }
+
 
     private void refresh(String query)
     {
