@@ -167,6 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_movie_details_synopsis"
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+            android:visibility="gone"
             android:id="@+id/pb_movie_details_extra"/>
 
         <TextView

@@ -104,4 +104,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         trailers = nTrailers;
         notifyDataSetChanged();
     }
+
+    public ArrayList<Trailer> getDataset() {
+        return trailers;
+    }
 }

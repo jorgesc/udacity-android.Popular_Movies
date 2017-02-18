@@ -25,6 +25,7 @@ import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MovieExtra;
 import com.example.udacity_project_1.popularmovies.utils.Review;
 import com.example.udacity_project_1.popularmovies.utils.ReviewsAdapter;
+import com.example.udacity_project_1.popularmovies.utils.Trailer;
 import com.example.udacity_project_1.popularmovies.utils.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +34,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,12 +59,16 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     @BindView(R.id.tv_movie_details_no_internet) TextView noInternetError;
 
+    private Movie movie;
 
     private ReviewsAdapter reviewsAdapter;
     private TrailersAdapter trailersAdapter;
 
     private final int LOADER_CODE = 238923;
 
+    private final String SAVE_STATE_REVIEWS_KEY = "reviews";
+    private final String SAVE_STATE_TRAILERS_KEY = "trailers";
+    private final String SAVE_STATE_MOVIE_KEY = "movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,34 +78,70 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
         ButterKnife.bind(this);
 
-        Intent builderIntent = getIntent();
+        movieReviews.setLayoutManager(new LinearLayoutManager(this));
+        reviewsAdapter = new ReviewsAdapter();
+        movieReviews.setAdapter(reviewsAdapter);
+        movieReviews.setHasFixedSize(false);
+
+        movieTrailers.setLayoutManager(new LinearLayoutManager(this));
+        trailersAdapter = new TrailersAdapter(this);
+        movieTrailers.setAdapter(trailersAdapter);
+        movieTrailers.setHasFixedSize(false);
+
+        if ((savedInstanceState != null) && savedInstanceState.containsKey(SAVE_STATE_MOVIE_KEY)) {
+            createFromSavedState(savedInstanceState);
+        }
+        else {
+            createFromIntent();
+        }
+    }
+
+
+    private void fillMovieDetails() {
+        movieTitle.setText(movie.title);
+        movieSynopsis.setText(movie.synopsis);
+        movieDate.setText(movie.date);
+        movieRating.setRating(Float.valueOf(movie.rating) / 2);
+        Picasso.with(this)
+                .load(movie.poster)
+                .error(R.mipmap.img_movie_poster_placeholder)
+                .into(moviePoster);
+    }
+
+    private void fillMovieExtra(ArrayList<Trailer> t, ArrayList<Review> r) {
+        reviewsAdapter.updateDataSet(r);
+        trailersAdapter.updateDataSet(t);
+
+
+        extraContainer.setVisibility(View.VISIBLE);
+
+        if (r.size() > 0) {
+            noReviewsError.setVisibility(View.GONE);
+            movieReviews.setVisibility(View.VISIBLE);
+            movieReviews.requestLayout();
+            movieReviews.invalidate();
+        } else {
+            movieReviews.setVisibility(View.GONE);
+            noReviewsError.setVisibility(View.VISIBLE);
+        }
+
+        if (t.size() > 0) {
+            noTrailersError.setVisibility(View.GONE);
+            movieTrailers.setVisibility(View.VISIBLE);
+        } else {
+            movieTrailers.setVisibility(View.GONE);
+            noTrailersError.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void createFromIntent(){
 
         // INIT STUFF
-
+        Intent builderIntent = getIntent();
         if (builderIntent.hasExtra("movie")){
-            Movie movie = builderIntent.getParcelableExtra("movie");
-
-            movieTitle.setText(movie.title);
-            movieSynopsis.setText(movie.synopsis);
-            movieDate.setText(movie.date);
-            movieRating.setRating(Float.valueOf(movie.rating) / 2);
-            Picasso.with(this)
-                    .load(movie.poster)
-                    .error(R.mipmap.img_movie_poster_placeholder)
-                    .into(moviePoster);
-
-
-            movieReviews.setLayoutManager(new LinearLayoutManager(this));
-            reviewsAdapter = new ReviewsAdapter();
-            movieReviews.setAdapter(reviewsAdapter);
-            movieReviews.setHasFixedSize(false);
-
-            movieTrailers.setLayoutManager(new LinearLayoutManager(this));
-            trailersAdapter = new TrailersAdapter(this);
-            movieTrailers.setAdapter(trailersAdapter);
-            movieTrailers.setHasFixedSize(false);
-
-
+            movie = builderIntent.getParcelableExtra("movie");
+            fillMovieDetails();
 
             // LOADER STUFF
 
@@ -116,7 +158,22 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                 loader.forceLoad();
             }
         }
+    }
 
+    private void createFromSavedState(Bundle savedInstanceState) {
+        movie = savedInstanceState.getParcelable(SAVE_STATE_MOVIE_KEY);
+        ArrayList<Trailer> trailers = savedInstanceState.getParcelableArrayList(SAVE_STATE_TRAILERS_KEY);
+        ArrayList<Review> reviews = savedInstanceState.getParcelableArrayList(SAVE_STATE_REVIEWS_KEY);
+        fillMovieDetails();
+        fillMovieExtra(trailers, reviews);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(SAVE_STATE_MOVIE_KEY, movie);
+        outState.putParcelableArrayList(SAVE_STATE_REVIEWS_KEY, reviewsAdapter.getDataset());
+        outState.putParcelableArrayList(SAVE_STATE_TRAILERS_KEY, trailersAdapter.getDataset());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -156,34 +213,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         loadingBar.setVisibility(View.GONE);
         if (data == null){
             noInternetError.setVisibility(View.VISIBLE);
-
+            Log.d("MovieDetails", "No internet");
         }
         else {
             Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
             Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
-            reviewsAdapter.updateDataSet(data.getReviews());
-            trailersAdapter.updateDataSet(data.getTrailers());
-
-
-            extraContainer.setVisibility(View.VISIBLE);
-
-            if (data.getReviews().size() > 0) {
-                noReviewsError.setVisibility(View.GONE);
-                movieReviews.setVisibility(View.VISIBLE);
-                movieReviews.requestLayout();
-                movieReviews.invalidate();
-            } else {
-                movieReviews.setVisibility(View.GONE);
-                noReviewsError.setVisibility(View.VISIBLE);
-            }
-
-            if (data.getTrailers().size() > 0) {
-                noTrailersError.setVisibility(View.GONE);
-                movieTrailers.setVisibility(View.VISIBLE);
-            } else {
-                movieTrailers.setVisibility(View.GONE);
-                noTrailersError.setVisibility(View.VISIBLE);
-            }
+            fillMovieExtra(data.getTrailers(), data.getReviews());
         }
     }
 

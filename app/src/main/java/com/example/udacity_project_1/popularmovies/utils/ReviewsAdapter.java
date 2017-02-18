@@ -70,4 +70,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         reviews = nReviews;
         notifyDataSetChanged();
     }
+
+    public ArrayList<Review> getDataset() {
+        return reviews;
+    }
 }
