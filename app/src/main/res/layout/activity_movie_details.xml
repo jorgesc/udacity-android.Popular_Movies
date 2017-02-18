@@ -176,6 +176,8 @@
             android:layout_below="@id/tv_movie_details_synopsis"
             android:text="@string/network_not_available_message"
             android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
             />
 
 
