@@ -15,9 +15,6 @@ import com.example.udacity_project_1.popularmovies.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by hit on 17/02/17.
- */
 
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerViewHolder> {
 

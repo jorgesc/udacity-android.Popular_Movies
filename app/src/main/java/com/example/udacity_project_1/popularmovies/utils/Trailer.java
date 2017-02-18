@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import java.net.URL;
 
-/**
- * Created by hit on 17/02/17.
- */
 
 
 public class Trailer implements Parcelable {

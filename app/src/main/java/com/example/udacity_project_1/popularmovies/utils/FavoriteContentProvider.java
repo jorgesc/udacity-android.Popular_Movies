@@ -10,9 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-/**
- * Created by hit on 18/02/17.
- */
 
 public class FavoriteContentProvider extends ContentProvider {
 

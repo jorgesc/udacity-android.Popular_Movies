@@ -2,9 +2,6 @@ package com.example.udacity_project_1.popularmovies.utils;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by hit on 18/02/17.
- */
 
 public class FavoriteMoviesDbContract {
     private FavoriteMoviesDbContract() {}

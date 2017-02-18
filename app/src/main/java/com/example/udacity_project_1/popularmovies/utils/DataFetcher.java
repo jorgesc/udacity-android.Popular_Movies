@@ -154,8 +154,7 @@ public class DataFetcher {
         builder.authority("www.youtube.com");
         builder.path("watch");
         builder.appendQueryParameter("v", key);
-        URL output = new URL(builder.build().toString());
-        return output;
+        return new URL(builder.build().toString());
 
     }
 

@@ -3,9 +3,6 @@ package com.example.udacity_project_1.popularmovies.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by hit on 17/02/17.
- */
 
 public class Review implements Parcelable {
     private String author;
