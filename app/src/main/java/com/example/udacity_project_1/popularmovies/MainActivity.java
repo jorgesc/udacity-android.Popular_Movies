@@ -2,6 +2,7 @@ package com.example.udacity_project_1.popularmovies;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,7 @@ import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MoviesAdapter;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -27,6 +29,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.GridItemClickListener{
 
     private MoviesAdapter moviesAdapter;
+    private final String MOVIE_LIST_SAVE_KEY = "movies";
+
 
     @BindView(R.id.rv_movies) RecyclerView moviesRecyclerView;
 
@@ -41,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v("MainActivity", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNumberOfColumns());
@@ -54,8 +58,24 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
 
-        refresh("popular");
+
+        if ((savedInstanceState != null) && savedInstanceState.containsKey(MOVIE_LIST_SAVE_KEY)) {
+            Log.v("MainActivity", "Restoring");
+            ArrayList<Movie> movies = savedInstanceState.getParcelableArrayList(MOVIE_LIST_SAVE_KEY);
+            moviesAdapter.updateData(movies);
+        }
+
+        else {
+            refresh("popular");
+        }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(MOVIE_LIST_SAVE_KEY,  moviesAdapter.getDataset());
+        super.onSaveInstanceState(outState);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

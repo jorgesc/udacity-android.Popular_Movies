@@ -19,6 +19,7 @@
         android:id="@+id/pb_loading_bar"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
         android:layout_gravity="center"
+        android:visibility="invisible"
         />
 
     <TextView

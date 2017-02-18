@@ -84,4 +84,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public com.example.udacity_project_1.popularmovies.utils.Movie getDatasetElement(int index) {
         return dataset.get(index);
     }
+
+    public ArrayList<Movie> getDataset() {
+        return dataset;
+    }
 }
