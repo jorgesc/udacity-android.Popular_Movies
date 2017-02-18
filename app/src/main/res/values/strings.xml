@@ -15,4 +15,11 @@
     <string name="details_reviews_title">Reviews:</string>
     <string name="details_reviews_error">There are no user reviews for this movie</string>
 
+    <string name="title_popular_movies">Popular Movies</string>
+    <string name="title_top_rated_movies">Top Rated Movies</string>
+    <string name="title_favorite_movies">Favorite Movies</string>
+
+    <string name="movie_added_to_favorites">Movie added to favorites</string>
+    <string name="movie_removed_from_favorites">Movie removed from favorites</string>
+
 </resources>

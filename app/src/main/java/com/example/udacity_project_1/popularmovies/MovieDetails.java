@@ -257,17 +257,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             Log.v("MovieDetails", "Movie is currently on db, removing...");
             removeCurrentMovieFromDb(db);
             item.setIcon(getResources().getDrawable(R.drawable.ic_star_border_black_24dp));
-
-            // TODO replace with strings
-            showToast("Movie removed from favorites");
+            showToast(getResources().getString(R.string.movie_removed_from_favorites));
         }
         else {
             Log.v("MovieDetails", "Movie is NOT currently on db, adding...");
             addCurrentMovieToDb(db);
             item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
-
-            // TODO replace with strings
-            showToast("Movie added to favorites");
+            showToast(getResources().getString(R.string.movie_added_to_favorites));
         }
 
     }

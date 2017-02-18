@@ -1,6 +1,8 @@
 package com.example.udacity_project_1.popularmovies;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbHelper;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MoviesAdapter;
 
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
 
     private MoviesAdapter moviesAdapter;
     private final String MOVIE_LIST_SAVE_KEY = "movies";
+
+    private SQLiteDatabase db;
 
 
     @BindView(R.id.rv_movies) RecyclerView moviesRecyclerView;
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
 
+        FavoriteMoviesDbHelper dbHelper = new FavoriteMoviesDbHelper(this);
+        db = dbHelper.getReadableDatabase();
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(MOVIE_LIST_SAVE_KEY)) {
             Log.v("MainActivity", "Restoring");
@@ -88,11 +96,36 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         int selection = item.getItemId();
         if (selection == R.id.action_popular){
             refresh("popular");
+            setTitle(getResources().getString(R.string.title_popular_movies));
         }
         else if (selection == R.id.action_top_rated){
             refresh("top_rated");
+            setTitle(getResources().getString(R.string.title_top_rated_movies));
+        }
+        else if (selection == R.id.action_favorites){
+            setTitle(getResources().getString(R.string.title_favorite_movies));
+            show_favorites();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void show_favorites() {
+        Cursor c = db.query(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null, null, null, null, null, null);
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        while (c.moveToNext()) {
+            Movie movie = new Movie(
+                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_TITLE)),
+                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_DATE)),
+                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_RATING)),
+                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_SYNOPSIS)),
+                    c.getString(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_POSTER)),
+                    c.getInt(c.getColumnIndex(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID))
+                    );
+            movies.add(movie);
+        }
+        moviesAdapter.updateData(movies);
+        showMoviesView();
     }
 
     private void refresh(String query)
