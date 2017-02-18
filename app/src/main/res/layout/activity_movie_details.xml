@@ -67,94 +67,87 @@
         />
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            android:id="@+id/below_synopsis_separator"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_below="@id/tv_movie_details_synopsis"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            />
-
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/below_synopsis_separator"
-            android:id="@+id/ll_movie_details_trailers_container"
-            >
+            android:id="@+id/ll_movie_details_extra_container"
+            android:layout_height="wrap_content">
 
-            <TextView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/below_synopsis_separator"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="@string/details_trailers_title"
-                android:id="@+id/tv_movie_details_trailers_title"
                 />
 
-            <ProgressBar
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@android:style/Widget.ProgressBar.Small"
-                android:id="@+id/pb_trailers_loading_bar"/>
+                android:orientation="vertical"
+                android:id="@+id/ll_movie_details_trailers_container"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details_trailers_error"
-                android:id="@+id/tv_movie_details_trailers_error"
-                />
+                <TextView
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="@string/details_trailers_title"
+                    android:id="@+id/tv_movie_details_trailers_title"
+                    />
 
-            <android.support.v7.widget.RecyclerView
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_trailers_error"
+                    android:id="@+id/tv_movie_details_trailers_error"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_movie_details_trailers"
+                    />
+
+            </LinearLayout>
+
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/rv_movie_details_trailers"
-                />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            android:id="@+id/below_trailers_separator"
-            android:layout_below="@id/ll_movie_details_trailers_container"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/below_trailers_separator"
-            android:orientation="vertical"
-            android:id="@+id/ll_movie_details_reviews_container"
-            >
-
-            <TextView
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/below_trailers_separator"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="@string/details_reviews_title"
-                android:id="@+id/tv_movie_details_reviews_title"
                 />
 
-            <ProgressBar
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@android:style/Widget.ProgressBar.Small"
-                android:id="@+id/pb_reviews_loading_bar"/>
+                android:orientation="vertical"
+                android:id="@+id/ll_movie_details_reviews_container"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details_reviews_error"
-                android:id="@+id/tv_movie_details_reviews_error"
+                <TextView
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="@string/details_reviews_title"
+                    android:id="@+id/tv_movie_details_reviews_title"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_reviews_error"
+                    android:id="@+id/tv_movie_details_reviews_error"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -162,7 +155,17 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_movie_details_reviews" />
 
+            </LinearLayout>
+
+
         </LinearLayout>
 
+        <ProgressBar
+            android:layout_marginTop="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_movie_details_synopsis"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+            android:id="@+id/pb_movie_details_extra"/>
     </RelativeLayout>
 </ScrollView>

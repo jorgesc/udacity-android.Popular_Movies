@@ -46,11 +46,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     @BindView(R.id.rv_movie_details_trailers) RecyclerView movieTrailers;
     @BindView(R.id.tv_movie_details_trailers_error) TextView noTrailersError;
-    @BindView(R.id.pb_trailers_loading_bar) ProgressBar trailersLoadingBar;
 
     @BindView(R.id.rv_movie_details_reviews) RecyclerView movieReviews;
     @BindView(R.id.tv_movie_details_reviews_error) TextView noReviewsError;
-    @BindView(R.id.pb_reviews_loading_bar) ProgressBar reviewsLoadingBar;
+
+    @BindView(R.id.pb_movie_details_extra) ProgressBar loadingBar;
+    @BindView(R.id.ll_movie_details_extra_container) LinearLayout extraContainer;
+
 
     private ReviewsAdapter reviewsAdapter;
     private TrailersAdapter trailersAdapter;
@@ -126,14 +128,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onStartLoading() {
-                movieReviews.setVisibility(View.GONE);
-                noReviewsError.setVisibility(View.GONE);
-                reviewsLoadingBar.setVisibility(View.VISIBLE);
-
-                movieTrailers.setVisibility(View.GONE);
-                noTrailersError.setVisibility(View.GONE);
-                trailersLoadingBar.setVisibility(View.VISIBLE);
-
+                extraContainer.setVisibility(View.GONE);
+                loadingBar.setVisibility(View.VISIBLE);
                 super.onStartLoading();
             }
 
@@ -157,22 +153,27 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         reviewsAdapter.updateDataSet(data.getReviews());
         trailersAdapter.updateDataSet(data.getTrailers());
 
-        reviewsLoadingBar.setVisibility(View.GONE);
-        trailersLoadingBar.setVisibility(View.GONE);
+        loadingBar.setVisibility(View.GONE);
+
+        extraContainer.setVisibility(View.VISIBLE);
 
         if (data.getReviews().size() > 0) {
+            noReviewsError.setVisibility(View.GONE);
             movieReviews.setVisibility(View.VISIBLE);
             movieReviews.requestLayout();
             movieReviews.invalidate();
         }
         else {
+            movieReviews.setVisibility(View.GONE);
             noReviewsError.setVisibility(View.VISIBLE);
         }
 
         if (data.getTrailers().size() > 0) {
+            noTrailersError.setVisibility(View.GONE);
             movieTrailers.setVisibility(View.VISIBLE);
         }
         else {
+            movieTrailers.setVisibility(View.GONE);
             noTrailersError.setVisibility(View.VISIBLE);
         }
     }
