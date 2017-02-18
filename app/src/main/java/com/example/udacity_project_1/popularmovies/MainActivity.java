@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbHelper;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     private MoviesAdapter moviesAdapter;
     private final String MOVIE_LIST_SAVE_KEY = "movies";
 
-    private SQLiteDatabase db;
+    private ContentResolver contentResolver;
 
 
     @BindView(R.id.rv_movies) RecyclerView moviesRecyclerView;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     protected void onCreate(Bundle savedInstanceState) {
         Log.v("MainActivity", "onCreate");
 
+        contentResolver = getContentResolver();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -66,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
-
-        FavoriteMoviesDbHelper dbHelper = new FavoriteMoviesDbHelper(this);
-        db = dbHelper.getReadableDatabase();
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(MOVIE_LIST_SAVE_KEY)) {
             Log.v("MainActivity", "Restoring");
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     }
 
     private void show_favorites() {
-        Cursor c = db.query(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null, null, null, null, null, null);
+        Cursor c = contentResolver.query(FavoriteContentProviderContract.CONTENT_URI, null, null, null, null, null);
         ArrayList<Movie> movies = new ArrayList<>();
 
         while (c.moveToNext()) {
@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
                     );
             movies.add(movie);
         }
+        c.close();
         moviesAdapter.updateData(movies);
         showMoviesView();
     }

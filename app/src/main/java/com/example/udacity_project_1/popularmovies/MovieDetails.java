@@ -1,10 +1,13 @@
 package com.example.udacity_project_1.popularmovies;
 
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -25,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbHelper;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
@@ -65,7 +69,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     private Movie movie;
 
-    private SQLiteDatabase db;
+    private ContentResolver contentResolver;
 
     private ReviewsAdapter reviewsAdapter;
     private TrailersAdapter trailersAdapter;
@@ -81,12 +85,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        contentResolver = getContentResolver();
+
         setContentView(R.layout.activity_movie_details);
 
         ButterKnife.bind(this);
-
-        FavoriteMoviesDbHelper dbHelper = new FavoriteMoviesDbHelper(this);
-        db = dbHelper.getWritableDatabase();
 
         movieReviews.setLayoutManager(new LinearLayoutManager(this));
         reviewsAdapter = new ReviewsAdapter();
@@ -191,7 +195,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.movie, menu);
-        if (isCurrentMovieOnDb(db)) {
+        if (isCurrentMovieOnDb()) {
             MenuItem item = menu.getItem(0);
             item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
         }
@@ -253,15 +257,15 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
 
     private void onFavButtonClick(MenuItem item) {
-        if (isCurrentMovieOnDb(db)) {
+        if (isCurrentMovieOnDb()) {
             Log.v("MovieDetails", "Movie is currently on db, removing...");
-            removeCurrentMovieFromDb(db);
+            removeCurrentMovieFromDb();
             item.setIcon(getResources().getDrawable(R.drawable.ic_star_border_black_24dp));
             showToast(getResources().getString(R.string.movie_removed_from_favorites));
         }
         else {
             Log.v("MovieDetails", "Movie is NOT currently on db, adding...");
-            addCurrentMovieToDb(db);
+            addCurrentMovieToDb();
             item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
             showToast(getResources().getString(R.string.movie_added_to_favorites));
         }
@@ -273,14 +277,15 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         toast.show();
     }
 
-    private boolean isCurrentMovieOnDb (SQLiteDatabase db) {
-        Cursor c = db.query(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null,
-                FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + " = ?",
-                new String[]{String.valueOf(movie.movieId)}, null, null, null);
-        return (c.getCount() > 0);
+    private boolean isCurrentMovieOnDb () {
+        Uri uri = FavoriteContentProviderContract.CONTENT_URI.buildUpon().appendPath(String.valueOf(movie.movieId)).build();
+        Cursor c = contentResolver.query(uri, null, null, null, null);
+        int count = c.getCount();
+        c.close();
+        return (count > 0);
     }
 
-    private void addCurrentMovieToDb (SQLiteDatabase db) {
+    private void addCurrentMovieToDb () {
         ContentValues values = new ContentValues();
         values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID, movie.movieId);
         values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_TITLE, movie.title);
@@ -289,13 +294,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_SYNOPSIS, movie.synopsis);
         values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_POSTER, movie.poster);
 
-        db.insert(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null, values);
+        contentResolver.insert(FavoriteContentProviderContract.CONTENT_URI, values);
 
     }
 
-    private void removeCurrentMovieFromDb (SQLiteDatabase db) {
-        db.delete(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME,
-                FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + "=?",
-                new String[]{String.valueOf(movie.movieId)});
+    private void removeCurrentMovieFromDb () {
+        Uri uri = FavoriteContentProviderContract.CONTENT_URI.buildUpon().appendPath(String.valueOf(movie.movieId)).build();
+        contentResolver.delete(uri, null, null);
+
     }
 }
