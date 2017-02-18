@@ -2,7 +2,6 @@ package com.example.udacity_project_1.popularmovies.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.R;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**

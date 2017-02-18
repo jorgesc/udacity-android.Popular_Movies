@@ -8,13 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class DataFetcher {
@@ -162,8 +160,6 @@ public class DataFetcher {
     }
 
     private static ArrayList<Trailer> getMovieTrailers(int movieId) throws IOException, JSONException{
-
-        // TODO clean all this
 
         URL url = buildDetailsURL(movieId, trailersPath);
         JSONObject response = NetworkUtils.getUrlAsJSON(url);

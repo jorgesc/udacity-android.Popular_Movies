@@ -1,18 +1,15 @@
 package com.example.udacity_project_1.popularmovies;
 
-import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.StrictMode;
+import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +27,6 @@ import android.widget.Toast;
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
-import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbHelper;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MovieExtra;
 import com.example.udacity_project_1.popularmovies.utils.Review;

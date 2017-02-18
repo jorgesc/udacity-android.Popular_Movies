@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import java.net.URL;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-
 /**
  * Created by hit on 17/02/17.
  */

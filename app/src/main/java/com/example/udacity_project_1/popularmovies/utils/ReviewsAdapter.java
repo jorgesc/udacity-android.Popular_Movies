@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.R;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

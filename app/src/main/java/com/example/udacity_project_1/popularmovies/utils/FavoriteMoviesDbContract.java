@@ -1,8 +1,5 @@
 package com.example.udacity_project_1.popularmovies.utils;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 /**
