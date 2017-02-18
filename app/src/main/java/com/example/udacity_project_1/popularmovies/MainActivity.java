@@ -1,5 +1,7 @@
 package com.example.udacity_project_1.popularmovies;
 
+import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v("MainActivity", "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);

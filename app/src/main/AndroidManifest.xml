@@ -3,6 +3,7 @@
     package="com.example.udacity_project_1.popularmovies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.example.udacity_project_1.popularmovies" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,12 @@
             >
 
         </activity>
+
+        <provider
+            android:authorities="com.example.udacity_project_1.popularmovies"
+            android:name="com.example.udacity_project_1.popularmovies.utils.FavoriteContentProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
