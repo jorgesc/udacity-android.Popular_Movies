@@ -95,7 +95,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             movieReviews.setHasFixedSize(false);
 
             movieTrailers.setLayoutManager(new LinearLayoutManager(this));
-            trailersAdapter = new TrailersAdapter();
+            trailersAdapter = new TrailersAdapter(this);
             movieTrailers.setAdapter(trailersAdapter);
             movieTrailers.setHasFixedSize(false);
 
