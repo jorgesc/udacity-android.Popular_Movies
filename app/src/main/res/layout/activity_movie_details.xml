@@ -167,5 +167,16 @@
             android:layout_below="@id/tv_movie_details_synopsis"
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
             android:id="@+id/pb_movie_details_extra"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_movie_details_no_internet"
+            android:layout_below="@id/tv_movie_details_synopsis"
+            android:text="@string/network_not_available_message"
+            android:visibility="gone"
+            />
+
+
     </RelativeLayout>
 </ScrollView>

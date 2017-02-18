@@ -29,8 +29,10 @@ import com.example.udacity_project_1.popularmovies.utils.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +54,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     @BindView(R.id.pb_movie_details_extra) ProgressBar loadingBar;
     @BindView(R.id.ll_movie_details_extra_container) LinearLayout extraContainer;
+
+    @BindView(R.id.tv_movie_details_no_internet) TextView noInternetError;
 
 
     private ReviewsAdapter reviewsAdapter;
@@ -128,6 +132,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onStartLoading() {
+                noInternetError.setVisibility(View.GONE);
                 extraContainer.setVisibility(View.GONE);
                 loadingBar.setVisibility(View.VISIBLE);
                 super.onStartLoading();
@@ -148,33 +153,37 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<MovieExtra> loader, MovieExtra data) {
-        Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
-        Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
-        reviewsAdapter.updateDataSet(data.getReviews());
-        trailersAdapter.updateDataSet(data.getTrailers());
-
         loadingBar.setVisibility(View.GONE);
+        if (data == null){
+            noInternetError.setVisibility(View.VISIBLE);
 
-        extraContainer.setVisibility(View.VISIBLE);
-
-        if (data.getReviews().size() > 0) {
-            noReviewsError.setVisibility(View.GONE);
-            movieReviews.setVisibility(View.VISIBLE);
-            movieReviews.requestLayout();
-            movieReviews.invalidate();
         }
         else {
-            movieReviews.setVisibility(View.GONE);
-            noReviewsError.setVisibility(View.VISIBLE);
-        }
+            Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
+            Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
+            reviewsAdapter.updateDataSet(data.getReviews());
+            trailersAdapter.updateDataSet(data.getTrailers());
 
-        if (data.getTrailers().size() > 0) {
-            noTrailersError.setVisibility(View.GONE);
-            movieTrailers.setVisibility(View.VISIBLE);
-        }
-        else {
-            movieTrailers.setVisibility(View.GONE);
-            noTrailersError.setVisibility(View.VISIBLE);
+
+            extraContainer.setVisibility(View.VISIBLE);
+
+            if (data.getReviews().size() > 0) {
+                noReviewsError.setVisibility(View.GONE);
+                movieReviews.setVisibility(View.VISIBLE);
+                movieReviews.requestLayout();
+                movieReviews.invalidate();
+            } else {
+                movieReviews.setVisibility(View.GONE);
+                noReviewsError.setVisibility(View.VISIBLE);
+            }
+
+            if (data.getTrailers().size() > 0) {
+                noTrailersError.setVisibility(View.GONE);
+                movieTrailers.setVisibility(View.VISIBLE);
+            } else {
+                movieTrailers.setVisibility(View.GONE);
+                noTrailersError.setVisibility(View.VISIBLE);
+            }
         }
     }
 
