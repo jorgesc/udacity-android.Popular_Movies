@@ -1,6 +1,10 @@
 package com.example.udacity_project_1.popularmovies;
 
+import android.content.ClipData;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -11,16 +15,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbHelper;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
 import com.example.udacity_project_1.popularmovies.utils.MovieExtra;
 import com.example.udacity_project_1.popularmovies.utils.Review;
@@ -30,10 +36,8 @@ import com.example.udacity_project_1.popularmovies.utils.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -61,6 +65,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     private Movie movie;
 
+    private SQLiteDatabase db;
+
     private ReviewsAdapter reviewsAdapter;
     private TrailersAdapter trailersAdapter;
 
@@ -70,6 +76,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     private final String SAVE_STATE_TRAILERS_KEY = "trailers";
     private final String SAVE_STATE_MOVIE_KEY = "movie";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,6 +84,9 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_movie_details);
 
         ButterKnife.bind(this);
+
+        FavoriteMoviesDbHelper dbHelper = new FavoriteMoviesDbHelper(this);
+        db = dbHelper.getWritableDatabase();
 
         movieReviews.setLayoutManager(new LinearLayoutManager(this));
         reviewsAdapter = new ReviewsAdapter();
@@ -106,6 +116,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                 .load(movie.poster)
                 .error(R.mipmap.img_movie_poster_placeholder)
                 .into(moviePoster);
+
     }
 
     private void fillMovieExtra(ArrayList<Trailer> t, ArrayList<Review> r) {
@@ -180,6 +191,10 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.movie, menu);
+        if (isCurrentMovieOnDb(db)) {
+            MenuItem item = menu.getItem(0);
+            item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
+        }
         return true;
     }
 
@@ -225,5 +240,66 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<MovieExtra> loader) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add_as_fav) {
+            Log.v("MovieDetails", "Click fav button");
+            onFavButtonClick(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void onFavButtonClick(MenuItem item) {
+        if (isCurrentMovieOnDb(db)) {
+            Log.v("MovieDetails", "Movie is currently on db, removing...");
+            removeCurrentMovieFromDb(db);
+            item.setIcon(getResources().getDrawable(R.drawable.ic_star_border_black_24dp));
+
+            // TODO replace with strings
+            showToast("Movie removed from favorites");
+        }
+        else {
+            Log.v("MovieDetails", "Movie is NOT currently on db, adding...");
+            addCurrentMovieToDb(db);
+            item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
+
+            // TODO replace with strings
+            showToast("Movie added to favorites");
+        }
+
+    }
+
+    private void showToast(String text) {
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    private boolean isCurrentMovieOnDb (SQLiteDatabase db) {
+        Cursor c = db.query(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null,
+                FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + " = ?",
+                new String[]{String.valueOf(movie.movieId)}, null, null, null);
+        return (c.getCount() > 0);
+    }
+
+    private void addCurrentMovieToDb (SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID, movie.movieId);
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_TITLE, movie.title);
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_RATING, Float.valueOf(movie.rating));
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_DATE, movie.date);
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_SYNOPSIS, movie.synopsis);
+        values.put(FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_POSTER, movie.poster);
+
+        db.insert(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, null, values);
+
+    }
+
+    private void removeCurrentMovieFromDb (SQLiteDatabase db) {
+        db.delete(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME,
+                FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + "=?",
+                new String[]{String.valueOf(movie.movieId)});
     }
 }
