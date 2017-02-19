@@ -109,7 +109,7 @@
                     android:id="@+id/tv_movie_details_trailers_error"
                     />
 
-                <android.support.v7.widget.RecyclerView
+                <com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rv_movie_details_trailers"
@@ -151,7 +151,7 @@
                     android:id="@+id/tv_movie_details_reviews_error"
                     />
 
-                <android.support.v7.widget.RecyclerView
+                <com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rv_movie_details_reviews" />

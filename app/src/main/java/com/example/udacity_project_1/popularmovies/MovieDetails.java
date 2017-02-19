@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
@@ -52,10 +53,10 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.iv_movie_details_poster) ImageView moviePoster;
     @BindView(R.id.rb_movie_details_rating) RatingBar movieRating;
 
-    @BindView(R.id.rv_movie_details_trailers) RecyclerView movieTrailers;
+    @BindView(R.id.rv_movie_details_trailers) EmptyRecyclerView movieTrailers;
     @BindView(R.id.tv_movie_details_trailers_error) TextView noTrailersError;
 
-    @BindView(R.id.rv_movie_details_reviews) RecyclerView movieReviews;
+    @BindView(R.id.rv_movie_details_reviews) EmptyRecyclerView movieReviews;
     @BindView(R.id.tv_movie_details_reviews_error) TextView noReviewsError;
 
     @BindView(R.id.pb_movie_details_extra) ProgressBar loadingBar;
@@ -92,11 +93,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         reviewsAdapter = new ReviewsAdapter();
         movieReviews.setAdapter(reviewsAdapter);
         movieReviews.setHasFixedSize(false);
+        movieReviews.setEmptyView(noReviewsError);
 
         movieTrailers.setLayoutManager(new LinearLayoutManager(this));
         trailersAdapter = new TrailersAdapter(this);
         movieTrailers.setAdapter(trailersAdapter);
         movieTrailers.setHasFixedSize(false);
+        movieTrailers.setEmptyView(noTrailersError);
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(SAVE_STATE_MOVIE_KEY)) {
             createFromSavedState(savedInstanceState);
@@ -123,26 +126,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         reviewsAdapter.updateDataSet(r);
         trailersAdapter.updateDataSet(t);
 
-
         extraContainer.setVisibility(View.VISIBLE);
-
-        if (r.size() > 0) {
-            noReviewsError.setVisibility(View.GONE);
-            movieReviews.setVisibility(View.VISIBLE);
-            movieReviews.requestLayout();
-            movieReviews.invalidate();
-        } else {
-            movieReviews.setVisibility(View.GONE);
-            noReviewsError.setVisibility(View.VISIBLE);
-        }
-
-        if (t.size() > 0) {
-            noTrailersError.setVisibility(View.GONE);
-            movieTrailers.setVisibility(View.VISIBLE);
-        } else {
-            movieTrailers.setVisibility(View.GONE);
-            noTrailersError.setVisibility(View.VISIBLE);
-        }
 
     }
 
