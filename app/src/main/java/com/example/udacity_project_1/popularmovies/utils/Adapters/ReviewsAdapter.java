@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.R;
+import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
 
 import java.util.ArrayList;
 

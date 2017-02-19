@@ -1,4 +1,7 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Objects;
+
+import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
+import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
 
 import java.util.ArrayList;
 
@@ -7,7 +10,7 @@ public class MovieExtra {
     private ArrayList<Trailer> trailers;
     private ArrayList<Review> reviews;
 
-    MovieExtra(ArrayList<Trailer> t, ArrayList<Review> r) {
+    public MovieExtra(ArrayList<Trailer> t, ArrayList<Review> r) {
         trailers = t;
         reviews = r;
     }

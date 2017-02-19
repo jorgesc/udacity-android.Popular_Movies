@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Fragments;
 
 import android.app.Fragment;
 import android.content.ContentResolver;
@@ -21,12 +21,15 @@ import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.MovieDetailsActivity;
 import com.example.udacity_project_1.popularmovies.R;
+import com.example.udacity_project_1.popularmovies.utils.Adapters.MoviesAdapter;
+import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteContentProviderContract;
+import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
+import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class MainActivityFragment extends Fragment implements MoviesAdapter.GridItemClickListener{
@@ -35,10 +38,10 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
     private final String MOVIE_LIST_SAVE_KEY = "movies";
     private ContentResolver contentResolver;
 
-    EmptyRecyclerView moviesRecyclerView;
-    ProgressBar loadingBar;
-    TextView errorMessage;
-    TextView errorMessageNoContent;
+    public EmptyRecyclerView moviesRecyclerView;
+    public ProgressBar loadingBar;
+    public TextView errorMessage;
+    public TextView errorMessageNoContent;
 
     private View rootView;
 

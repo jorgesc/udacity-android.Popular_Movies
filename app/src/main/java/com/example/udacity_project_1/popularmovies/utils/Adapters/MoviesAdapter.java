@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.udacity_project_1.popularmovies.R;
+import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private ArrayList<com.example.udacity_project_1.popularmovies.utils.Movie> dataset;
+    private ArrayList<Movie> dataset;
     private GridItemClickListener clickListener;
 
     public MoviesAdapter(GridItemClickListener listener) {
@@ -64,7 +65,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position){
-        com.example.udacity_project_1.popularmovies.utils.Movie movie = dataset.get(position);
+        Movie movie = dataset.get(position);
         String imageSource = movie.poster;
         holder.bind(imageSource);
     }
@@ -75,13 +76,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return dataset.size();
     }
 
-    public void updateData(ArrayList<com.example.udacity_project_1.popularmovies.utils.Movie> data) {
+    public void updateData(ArrayList<Movie> data) {
         dataset = data;
         notifyDataSetChanged();
         Log.d("MoviesAdapter", "dataset changed, new length: " + dataset.size());
     }
 
-    public com.example.udacity_project_1.popularmovies.utils.Movie getDatasetElement(int index) {
+    public Movie getDatasetElement(int index) {
         return dataset.get(index);
     }
 

@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.DatabaseUtils;
 
 import android.provider.BaseColumns;
 

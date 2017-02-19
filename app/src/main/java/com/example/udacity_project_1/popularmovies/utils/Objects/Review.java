@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,7 @@ public class Review implements Parcelable {
     private String author;
     private String content;
 
-    Review(String nAuthor, String nContent) {
+    public Review(String nAuthor, String nContent) {
         author = nAuthor.trim();
         content = nContent.trim();
     }

@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils;
+package com.example.udacity_project_1.popularmovies.utils.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,7 +12,7 @@ public class Trailer implements Parcelable {
     private String name;
     private java.net.URL url;
 
-    Trailer(String nName, URL nUrl) {
+    public Trailer(String nName, URL nUrl) {
         name = nName.trim();
         url = nUrl;
     }
