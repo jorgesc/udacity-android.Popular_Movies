@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
 
     private void showLoadingScreen(){
         moviesRecyclerView.setVisibility(View.INVISIBLE);
+        errorMessageNoContent.setVisibility(View.INVISIBLE);
         errorMessage.setVisibility(View.INVISIBLE);
         loadingBar.setVisibility(View.VISIBLE);
     }

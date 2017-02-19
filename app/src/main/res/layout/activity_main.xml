@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/tv_error_message_no_content"
+        android:visibility="gone"
         android:text="@string/no_content_message"/>
 
 </FrameLayout>
