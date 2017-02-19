@@ -3,7 +3,7 @@ package com.example.udacity_project_1.popularmovies.utils.databaseUtils;
 import android.provider.BaseColumns;
 
 
-public class FavoriteMoviesDbContract {
+public final class FavoriteMoviesDbContract {
     private FavoriteMoviesDbContract() {}
 
     public static class FavoriteTable implements BaseColumns {
