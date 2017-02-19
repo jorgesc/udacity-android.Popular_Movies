@@ -45,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MovieDetails extends AppCompatActivity implements LoaderManager.LoaderCallbacks<MovieExtra>{
+public class MovieDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<MovieExtra>{
 
     @BindView(R.id.tv_movie_details_title) TextView movieTitle;
     @BindView(R.id.tv_movie_details_synopsis) TextView movieSynopsis;
@@ -212,11 +212,11 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         loadingBar.setVisibility(View.GONE);
         if (data == null){
             noInternetError.setVisibility(View.VISIBLE);
-            Log.d("MovieDetails", "No internet");
+            Log.d("MovieDetailsActivity", "No internet");
         }
         else {
-            Log.v("MovieDetails", "Got " + data.getTrailers().size() + " trailers");
-            Log.v("MovieDetails", "Got " + data.getReviews().size() + " reviews");
+            Log.v("MovieDetailsActivity", "Got " + data.getTrailers().size() + " trailers");
+            Log.v("MovieDetailsActivity", "Got " + data.getReviews().size() + " reviews");
             fillMovieExtra(data.getTrailers(), data.getReviews());
         }
     }
@@ -229,7 +229,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add_as_fav) {
-            Log.v("MovieDetails", "Click fav button");
+            Log.v("MovieDetailsActivity", "Click fav button");
             onFavButtonClick(item);
         }
         return super.onOptionsItemSelected(item);
@@ -238,13 +238,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     private void onFavButtonClick(MenuItem item) {
         if (isCurrentMovieOnDb()) {
-            Log.v("MovieDetails", "Movie is currently on db, removing...");
+            Log.v("MovieDetailsActivity", "Movie is currently on db, removing...");
             removeCurrentMovieFromDb();
             item.setIcon(getResources().getDrawable(R.drawable.ic_star_border_black_24dp));
             showToast(getResources().getString(R.string.movie_removed_from_favorites));
         }
         else {
-            Log.v("MovieDetails", "Movie is NOT currently on db, adding...");
+            Log.v("MovieDetailsActivity", "Movie is NOT currently on db, adding...");
             addCurrentMovieToDb();
             item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
             showToast(getResources().getString(R.string.movie_added_to_favorites));

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     public void onGridItemClick(int index) {
         Movie movie= moviesAdapter.getDatasetElement(index);
         Log.d("MainActivity", "Clicked on movie " + movie.title);
-        Intent intent = new Intent(this, MovieDetails.class);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
     }
