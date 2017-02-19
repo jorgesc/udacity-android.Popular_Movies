@@ -44,9 +44,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by hit on 19/02/17.
  */
