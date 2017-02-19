@@ -12,7 +12,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-class NetworkUtils {
+final class NetworkUtils {
+
+    private NetworkUtils(){}
 
     private static String getUrl(URL url) throws IOException{
         OkHttpClient client = new OkHttpClient();
