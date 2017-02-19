@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
+import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.Movie;
@@ -36,10 +37,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     private ContentResolver contentResolver;
 
 
-    @BindView(R.id.rv_movies) RecyclerView moviesRecyclerView;
+    @BindView(R.id.rv_movies) EmptyRecyclerView moviesRecyclerView;
 
     @BindView(R.id.pb_loading_bar) ProgressBar loadingBar;
     @BindView(R.id.tv_error_message) TextView errorMessage;
+    @BindView(R.id.tv_error_message_no_content) TextView errorMessageNoContent;
 
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.setAdapter(moviesAdapter);
         moviesRecyclerView.setVisibility(View.VISIBLE);
+        moviesRecyclerView.setEmptyView(errorMessageNoContent);
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(MOVIE_LIST_SAVE_KEY)) {
             Log.v("MainActivity", "Restoring");
@@ -155,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Gri
     private void showNetworkNotAvailableMessage() {
         moviesRecyclerView.setVisibility(View.INVISIBLE);
         loadingBar.setVisibility(View.INVISIBLE);
-        errorMessage.setText(this.getResources().getString(R.string.network_not_available_message));
         errorMessage.setVisibility(View.VISIBLE);
     }
 

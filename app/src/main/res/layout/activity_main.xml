@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.udacity_project_1.popularmovies.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_movies">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView>
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -27,5 +27,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/tv_error_message"
+        android:text="@string/network_not_available_message"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/tv_error_message_no_content"
+        android:text="@string/no_content_message"/>
+
 </FrameLayout>
