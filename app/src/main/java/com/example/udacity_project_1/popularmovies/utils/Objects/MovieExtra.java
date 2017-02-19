@@ -1,8 +1,5 @@
 package com.example.udacity_project_1.popularmovies.utils.Objects;
 
-import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
-
 import java.util.ArrayList;
 
 

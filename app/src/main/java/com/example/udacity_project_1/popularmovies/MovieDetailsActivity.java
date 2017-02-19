@@ -23,16 +23,16 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.udacity_project_1.popularmovies.utils.Adapters.ReviewsAdapter;
+import com.example.udacity_project_1.popularmovies.utils.Adapters.TrailersAdapter;
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
-import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
 import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteContentProviderContract;
 import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
 import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
 import com.example.udacity_project_1.popularmovies.utils.Objects.MovieExtra;
 import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
-import com.example.udacity_project_1.popularmovies.utils.Adapters.ReviewsAdapter;
 import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
-import com.example.udacity_project_1.popularmovies.utils.Adapters.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
