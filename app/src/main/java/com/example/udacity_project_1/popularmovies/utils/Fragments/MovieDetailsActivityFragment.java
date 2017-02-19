@@ -212,8 +212,13 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.movie, menu);
         if (isCurrentMovieOnDb()) {
-            MenuItem item = menu.getItem(0);
-            item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
+            MenuItem item;
+            for (int i = 0; i < menu.size(); i++) {
+                item = menu.getItem(i);
+                if (item.getItemId() == R.id.action_add_as_fav){
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_grade_black_24dp));
+                }
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
