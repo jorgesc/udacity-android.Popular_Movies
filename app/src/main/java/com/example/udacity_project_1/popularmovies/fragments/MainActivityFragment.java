@@ -47,11 +47,14 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
 
     private View rootView;
 
+    private boolean isTablet;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentResolver = getActivity().getContentResolver();
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         setHasOptionsMenu(true);
     }
 
@@ -90,7 +93,7 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        if (dpWidth >= 720) {
+        if (isTablet) {
             return 1;
         }
         else {
@@ -135,9 +138,7 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
         Movie movie= moviesAdapter.getDatasetElement(index);
         Log.d("MainActivity", "Clicked on movie " + movie.title);
 
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        if (dpWidth >= 720) {
+        if (isTablet) {
             Fragment newFragment = new MovieDetailsActivityFragment();
             FragmentManager manager = getFragmentManager();
 
