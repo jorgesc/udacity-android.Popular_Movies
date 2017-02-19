@@ -280,7 +280,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
 
     private void removeCurrentMovieFromDb () {
         Uri uri = FavoriteContentProviderContract.CONTENT_URI.buildUpon().appendPath(String.valueOf(movie.movieId)).build();
-        contentResolver.delete(uri, null, null);
+        Log.v("MovieDetailsActivity", "Uri generated:  " + uri);
+        int deleted = contentResolver.delete(uri, null, null);
+        Log.v("MovieDetailsActivity", "Deleted " + deleted + " movies.");
 
     }
 }

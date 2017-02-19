@@ -91,6 +91,9 @@ public class FavoriteContentProvider extends ContentProvider {
         int match = uriMatcher.match(uri);
         switch (match) {
             case FAVORITE_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                selection = FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + "=?";
+                selectionArgs = new String[]{id};
                 int deleted = db.delete(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, selection, selectionArgs);
                 if (deleted > 0){
                     getContext().getContentResolver().notifyChange(uri, null);
@@ -108,6 +111,9 @@ public class FavoriteContentProvider extends ContentProvider {
         int match = uriMatcher.match(uri);
         switch (match) {
             case FAVORITE_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                selection = FavoriteMoviesDbContract.FavoriteTable.COLUMN_MOVIE_ID + "=?";
+                selectionArgs = new String[]{id};
                 int updated = db.update(FavoriteMoviesDbContract.FavoriteTable.TABLE_NAME, values, selection, selectionArgs);
                 if (updated > 0){
                     getContext().getContentResolver().notifyChange(uri, null);
