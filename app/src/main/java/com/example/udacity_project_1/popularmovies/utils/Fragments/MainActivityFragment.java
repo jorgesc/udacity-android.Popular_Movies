@@ -1,6 +1,8 @@
 package com.example.udacity_project_1.popularmovies.utils.Fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -50,13 +52,13 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentResolver = getActivity().getContentResolver();
+        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        setHasOptionsMenu(true);
         rootView =inflater.inflate(R.layout.activity_main_fragment, container, false);
 
         moviesRecyclerView = (EmptyRecyclerView) rootView.findViewById(R.id.rv_movies);
@@ -88,7 +90,12 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        return (int) (dpWidth / 90);
+        if (dpWidth >= 720) {
+            return 1;
+        }
+        else {
+            return (int) (dpWidth / 90);
+        }
     }
 
     @Override
@@ -127,9 +134,28 @@ public class MainActivityFragment extends Fragment implements MoviesAdapter.Grid
     public void onGridItemClick(int index) {
         Movie movie= moviesAdapter.getDatasetElement(index);
         Log.d("MainActivity", "Clicked on movie " + movie.title);
-        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie", movie);
-        startActivity(intent);
+
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        if (dpWidth >= 720) {
+            Fragment newFragment = new MovieDetailsActivityFragment();
+            FragmentManager manager = getFragmentManager();
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("movie", movie);
+
+            newFragment.setArguments(bundle);
+
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fragment_movie_details_activity_container, newFragment, "TEST");
+            transaction.commit();
+        }
+        else {
+            Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+            intent.putExtra("movie", movie);
+            startActivity(intent);
+        }
+
     }
 
     class ShowFavoritesAsync extends AsyncTask<Void, Void, Cursor> {

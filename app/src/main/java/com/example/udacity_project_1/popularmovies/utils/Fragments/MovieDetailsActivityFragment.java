@@ -80,12 +80,14 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
     public void onCreate(Bundle savedInstanceState) {
         contentResolver = getActivity().getContentResolver();
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v("MDActivityFrag", "onCreateView");
 
         rootView = inflater.inflate(R.layout.activity_movie_details_fragment, container, false);
 
@@ -120,15 +122,26 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
         movieTrailers.setEmptyView(noTrailersError);
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(SAVE_STATE_MOVIE_KEY)) {
+            Log.d("MDActFrag", "From saved state");
             createFromSavedState(savedInstanceState);
         }
+        else if(getArguments() != null) {
+            Log.d("MDActFrag", "From fragment");
+            Bundle args = getArguments();
+            Movie m = args.getParcelable("movie");
+            Log.v("MDActFrag", "Movie title: " + m.title);
+            createFromFragment(m);
+        }
         else {
+            Log.d("MDActFrag", "From intent");
             createFromIntent();
         }
+
         return rootView;
     }
 
     private void fillMovieDetails() {
+        Log.d("MDActFrag", "Filling movie details: " + movie.title);
         movieTitle.setText(movie.title);
         movieSynopsis.setText(movie.synopsis);
         movieDate.setText(movie.date);
@@ -137,7 +150,6 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
                 .load(movie.poster)
                 .error(R.mipmap.img_movie_poster_placeholder)
                 .into(moviePoster);
-
     }
 
     private void fillMovieExtra(ArrayList<Trailer> t, ArrayList<Review> r) {
@@ -150,27 +162,11 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
 
 
     private void createFromIntent(){
-
         // INIT STUFF
         Intent builderIntent = getActivity().getIntent();
         if (builderIntent.hasExtra("movie")){
             movie = builderIntent.getParcelableExtra("movie");
-            fillMovieDetails();
-
-            // LOADER STUFF
-
-            LoaderManager loaderManager = getActivity().getLoaderManager();
-            Loader loader = loaderManager.getLoader(LOADER_CODE);
-            if (loader != null) {
-                loader.forceLoad();
-            }
-            else {
-                Bundle args = new Bundle();
-                args.putInt("movieId", movie.movieId);
-                loaderManager.initLoader(LOADER_CODE, args, this);
-                loader = loaderManager.getLoader(LOADER_CODE);
-                loader.forceLoad();
-            }
+            createFromFragment(movie);
         }
     }
 
@@ -181,6 +177,27 @@ public class MovieDetailsActivityFragment extends Fragment implements LoaderMana
         fillMovieDetails();
         fillMovieExtra(trailers, reviews);
     }
+
+    private void createFromFragment(Movie nMovie){
+
+        movie = nMovie;
+        fillMovieDetails();
+        // LOADER STUFF
+
+        LoaderManager loaderManager = getActivity().getLoaderManager();
+        Bundle args = new Bundle();
+        args.putInt("movieId", movie.movieId);
+
+        Loader loader = loaderManager.getLoader(LOADER_CODE);
+        if (loader != null) {
+            loaderManager.destroyLoader(LOADER_CODE);
+        }
+
+        loaderManager.initLoader(LOADER_CODE, args, this);
+        loader = loaderManager.getLoader(LOADER_CODE);
+        loader.forceLoad();
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
