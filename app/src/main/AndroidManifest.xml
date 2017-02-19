@@ -29,7 +29,7 @@
 
         <provider
             android:authorities="com.example.udacity_project_1.popularmovies"
-            android:name="com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteContentProvider"
+            android:name="com.example.udacity_project_1.popularmovies.utils.databaseUtils.FavoriteContentProvider"
             android:exported="false" />
 
     </application>

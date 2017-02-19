@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils.Fragments;
+package com.example.udacity_project_1.popularmovies.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,12 +23,12 @@ import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.MovieDetailsActivity;
 import com.example.udacity_project_1.popularmovies.R;
-import com.example.udacity_project_1.popularmovies.utils.Adapters.MoviesAdapter;
+import com.example.udacity_project_1.popularmovies.adapters.MoviesAdapter;
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
-import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteContentProviderContract;
-import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.databaseUtils.FavoriteContentProviderContract;
+import com.example.udacity_project_1.popularmovies.utils.databaseUtils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
+import com.example.udacity_project_1.popularmovies.objects.Movie;
 
 import java.io.IOException;
 import java.util.ArrayList;

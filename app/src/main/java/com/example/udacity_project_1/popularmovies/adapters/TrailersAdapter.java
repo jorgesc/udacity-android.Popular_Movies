@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils.Adapters;
+package com.example.udacity_project_1.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.udacity_project_1.popularmovies.R;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
+import com.example.udacity_project_1.popularmovies.objects.Trailer;
 
 import java.util.ArrayList;
 

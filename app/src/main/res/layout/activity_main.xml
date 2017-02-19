@@ -9,7 +9,7 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.udacity_project_1.popularmovies.utils.Fragments.MainActivityFragment"
+        android:name="com.example.udacity_project_1.popularmovies.fragments.MainActivityFragment"
         android:id="@+id/fragment_main_activity"
         />
 

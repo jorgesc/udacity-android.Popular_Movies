@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils.DatabaseUtils;
+package com.example.udacity_project_1.popularmovies.utils.databaseUtils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

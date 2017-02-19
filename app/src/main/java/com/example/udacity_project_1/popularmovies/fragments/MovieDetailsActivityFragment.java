@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils.Fragments;
+package com.example.udacity_project_1.popularmovies.fragments;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
@@ -27,16 +27,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.udacity_project_1.popularmovies.R;
-import com.example.udacity_project_1.popularmovies.utils.Adapters.ReviewsAdapter;
-import com.example.udacity_project_1.popularmovies.utils.Adapters.TrailersAdapter;
+import com.example.udacity_project_1.popularmovies.adapters.ReviewsAdapter;
+import com.example.udacity_project_1.popularmovies.adapters.TrailersAdapter;
 import com.example.udacity_project_1.popularmovies.utils.DataFetcher;
-import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteContentProviderContract;
-import com.example.udacity_project_1.popularmovies.utils.DatabaseUtils.FavoriteMoviesDbContract;
+import com.example.udacity_project_1.popularmovies.utils.databaseUtils.FavoriteContentProviderContract;
+import com.example.udacity_project_1.popularmovies.utils.databaseUtils.FavoriteMoviesDbContract;
 import com.example.udacity_project_1.popularmovies.utils.EmptyRecyclerView;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
-import com.example.udacity_project_1.popularmovies.utils.Objects.MovieExtra;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
+import com.example.udacity_project_1.popularmovies.objects.Movie;
+import com.example.udacity_project_1.popularmovies.objects.MovieExtra;
+import com.example.udacity_project_1.popularmovies.objects.Review;
+import com.example.udacity_project_1.popularmovies.objects.Trailer;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.udacity_project_1.popularmovies.utils.Adapters;
+package com.example.udacity_project_1.popularmovies.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.udacity_project_1.popularmovies.R;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
+import com.example.udacity_project_1.popularmovies.objects.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

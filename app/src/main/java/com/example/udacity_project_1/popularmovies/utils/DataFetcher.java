@@ -3,10 +3,10 @@ package com.example.udacity_project_1.popularmovies.utils;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.udacity_project_1.popularmovies.utils.Objects.Movie;
-import com.example.udacity_project_1.popularmovies.utils.Objects.MovieExtra;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Review;
-import com.example.udacity_project_1.popularmovies.utils.Objects.Trailer;
+import com.example.udacity_project_1.popularmovies.objects.Movie;
+import com.example.udacity_project_1.popularmovies.objects.MovieExtra;
+import com.example.udacity_project_1.popularmovies.objects.Review;
+import com.example.udacity_project_1.popularmovies.objects.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
