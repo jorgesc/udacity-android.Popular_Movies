@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/tv_error_message"
+        android:visibility="gone"
         android:text="@string/network_not_available_message"
         />
 
